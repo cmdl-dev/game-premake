@@ -9,5 +9,5 @@ Texture2D TextureManager::LoadTextureFromFile(const char *fileName)
 // TODO:
 void TextureManager::Draw(Texture2D texture, Vector2 position)
 {
-    DrawTextureEx(texture, position, 0, 2.0f, WHITE);
+    DrawTextureEx(texture, position, 0, 1.0f, WHITE);
 }
