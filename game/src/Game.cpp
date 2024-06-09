@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Player *player;
-Player *enemy;
+Enemy *enemy;
 Tileset *map;
 Vector2 pos = Vector2{0, 0};
 
@@ -11,10 +11,9 @@ Game::Game(int width, int height, std::string title)
     m_screenWidth = width;
     InitWindow(width, height, title.c_str());
     SetTraceLogLevel(LOG_ERROR);
-    player = new Player("game/assets/enemy/Phoenix.png", Vector2{40, 40});
+    player = new Player("game/assets/enemy/Phoenix.png", Vector2{40, 40}, "player");
 
-    // CollisionBoxManager::
-    // enemy = new Player("game/assets/player/HealingTexture.png", Vector2{100, 100});
+    enemy = new Enemy("game/assets/player/HealingTexture.png", Vector2{200, 200}, "enemy");
 
     map = new Tileset();
 }
@@ -40,9 +39,9 @@ void Game::draw()
     BeginDrawing();
     ClearBackground(BLACK);
     map->draw();
-    // DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+
     player->draw();
-    // enemy->draw();
+    enemy->draw();
 
     DrawFPS(20, 20);
     EndDrawing();

@@ -12,16 +12,14 @@
 class CharacterObject
 {
 public:
-    CharacterObject(const char *filePath, Vector2 initialPosition);
+    CharacterObject(const char *filePath, Vector2 initialPosition, std::string group);
 
     void draw();
     void move(float delta);
-    virtual void beforeMoveAction() {};
 
     void setVelocity(int vel) { m_velocity = vel; }
     void setDirection(Vector2 newDirection) { m_direction = newDirection; };
 
-    void setGroup(std::string g) { m_group = g; };
     void setCollisionGroup(std::vector<std::string> vec) { m_collisionGroup = vec; };
 
 private:
@@ -38,6 +36,7 @@ private:
     std::string m_group = std::string();
 
     Vector2 handleCollision(float delta);
+    virtual void beforeMoveAction() {};
 };
 
 #endif

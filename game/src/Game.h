@@ -4,6 +4,7 @@
 #include "raylib.h"
 
 #include "Player.h"
+#include "Enemy.h"
 #include "Tileset.h"
 
 #include <string>

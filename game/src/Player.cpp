@@ -5,9 +5,8 @@
 
 // TODO: Handle SCALE
 const int PADDING = 10;
-Player::Player(const char *filePath, Vector2 initialPosition) : CharacterObject{filePath, initialPosition}
+Player::Player(const char *filePath, Vector2 initialPosition, std::string group) : CharacterObject{filePath, initialPosition, group}
 {
-    setGroup("player");
     setCollisionGroup(std::vector<std::string>{"enemy", "dirt"});
     setVelocity(200);
 }

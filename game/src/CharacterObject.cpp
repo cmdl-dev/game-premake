@@ -2,12 +2,12 @@
 
 // TODO: Handle SCALE
 const int PADDING = 10;
-CharacterObject::CharacterObject(const char *filePath, Vector2 initialPosition)
+CharacterObject::CharacterObject(const char *filePath, Vector2 initialPosition, std::string group)
 {
     m_texture = TextureManager::LoadTextureFromFile(filePath);
 
     m_collisionBox = new CollisionBox(Rectangle{initialPosition.x, initialPosition.y, (float)m_texture.width + PADDING, (float)m_texture.height + PADDING});
-    // m_group = "player";
+    m_group = group;
     // m_collisionGroup = std::vector<std::string>{"enemy", "dirt"};
 
     if (m_group != std::string())

@@ -7,12 +7,11 @@
 class Player : public CharacterObject
 {
 public:
-    Player(const char *filePath, Vector2 initialPosition);
-
-    void beforeMoveAction() override;
+    Player(const char *filePath, Vector2 initialPosition, std::string group);
 
 private:
     void getDirectionFromInput();
+    void beforeMoveAction() override;
 };
 
 #endif
