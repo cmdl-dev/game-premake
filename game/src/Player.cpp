@@ -11,7 +11,7 @@ Player::Player(const char *filePath, Vector2 initialPosition)
     m_texture = TextureManager::LoadTextureFromFile(filePath);
 
     m_collisionBox = new CollisionBox(initialPosition, m_texture.width + PADDING, m_texture.height + PADDING);
-    CollisionBoxManager::GetInstance().AddCollisionBox("player", m_collisionBox);
+    CollisionBoxManager::AddCollisionBox("player", m_collisionBox);
 
     m_velocity = 200;
     m_direction = Vector2{0, 0};
@@ -48,55 +48,61 @@ void Player::getDirectionFromInput()
         m_direction.y += -1;
 }
 
-void Player::move(float delta)
+Vector2 Player::handleCollisionVectors(float delta)
 {
-
-    getDirectionFromInput();
-    float computedVelocityX = (m_velocity * delta) * m_direction.x;
-    float computedVelocityY = (m_velocity * delta) * m_direction.y;
+    float c_VelocityX = (m_velocity * delta) * m_direction.x;
+    float c_VelocityY = (m_velocity * delta) * m_direction.y;
 
     Rectangle futurePosition = m_collisionBox->getRectangle();
-    std::vector<CollisionBox *> boxes = filterOurOwnCollision(CollisionBoxManager::GetInstance().GetCollisionBoxesFor("player"));
 
-    // std::cout << std::format("X Vel -> {}\n\n Yvel -> {}\n\n", computedVelocityX, computedVelocityY);
+    // Filter our selfs
+    std::vector<CollisionBox *> boxes = filterOurOwnCollision(CollisionBoxManager::GetCollisionBoxesFor("player"));
 
-    futurePosition.x += computedVelocityX;
+    futurePosition.x += c_VelocityX;
     for (auto &&collisionBox : boxes)
     {
         if (collisionBox->isCollidingWith(futurePosition))
         {
-            if (computedVelocityX > 0.0f)
+            if (c_VelocityX > 0.0f)
             {
-                computedVelocityX = (collisionBox->m_position.x - m_collisionBox->m_width) - m_collisionBox->m_position.x;
+                c_VelocityX = (collisionBox->getPosition().x - m_collisionBox->getWidth()) - m_collisionBox->getPosition().x;
             }
-            else if (computedVelocityX < 0.0f)
+            else if (c_VelocityX < 0.0f)
             {
-                computedVelocityX = (collisionBox->m_position.x + collisionBox->m_width) - m_collisionBox->m_position.x;
+                c_VelocityX = (collisionBox->getPosition().x + collisionBox->getWidth()) - m_collisionBox->getPosition().x;
             }
         }
     }
     // Set future x position to rosolved posiion x
-    futurePosition.x = m_collisionBox->getRectangle().x + computedVelocityX;
+    futurePosition.x = m_collisionBox->getRectangle().x + c_VelocityX;
 
-    futurePosition.y += computedVelocityY;
+    futurePosition.y += c_VelocityY;
     for (auto &&collisionBox : boxes)
     {
         if (collisionBox->isCollidingWith(futurePosition))
         {
-            if (computedVelocityY > 0.0f)
+            if (c_VelocityY > 0.0f)
             {
-                auto a = collisionBox->m_position.y - m_collisionBox->m_height;
-                computedVelocityY = a - m_collisionBox->m_position.y;
+                c_VelocityY = (collisionBox->getPosition().y - m_collisionBox->getHeight()) - m_collisionBox->getPosition().y;
             }
-            else if (computedVelocityY < 0.0f)
+            else if (c_VelocityY < 0.0f)
             {
-                computedVelocityY = (collisionBox->m_position.y + collisionBox->m_height) - m_collisionBox->m_position.y;
+                c_VelocityY = (collisionBox->getPosition().y + collisionBox->getHeight()) - m_collisionBox->getPosition().y;
             }
-            // Filter our selfs
         }
     }
-    m_position.x += computedVelocityX;
-    m_position.y += computedVelocityY;
+    return Vector2{c_VelocityX, c_VelocityY};
+}
+
+void Player::move(float delta)
+{
+    getDirectionFromInput();
+
+    // Computed X/Y
+    Vector2 pos = handleCollisionVectors(delta);
+
+    m_position.x += pos.x;
+    m_position.y += pos.y;
 
     m_collisionBox->update(m_position);
 }

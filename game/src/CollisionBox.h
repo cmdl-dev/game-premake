@@ -9,13 +9,26 @@ public:
 
     bool isCollidingWith(CollisionBox box);
     bool isCollidingWith(Rectangle box);
-    Rectangle collidingRect(CollisionBox box);
 
-    int m_width;
-    int m_height;
-    Vector2 m_position;
+    int getHeight()
+    {
+        return m_height;
+    }
+    int getWidth()
+    {
+        return m_width;
+    }
+    Vector2 getPosition()
+    {
+        return m_position;
+    }
+
+    Rectangle collidingRect(CollisionBox box);
 
     Rectangle getRectangle();
 
 private:
+    int m_width;
+    int m_height;
+    Vector2 m_position;
 };

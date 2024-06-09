@@ -31,18 +31,18 @@ public:
         return CollisionBoxManager::s_Instance;
     }
 
-    void AddCollisionBox(std::string key, CollisionBox *box);
-    std::vector<CollisionBox *> GetCollisionBoxesFor(std::string);
-    // static void AddCollisionBox(std::string key, CollisionBox *box) { return instance()->impl_AddCollisionBox(key, box); }
-    // static std::vector<CollisionBox *> GetCollinionBoxesFor(std::string key) { return instance()->impl_GetCollisionBoxesFor(key); }
+    // void AddCollisionBox(std::string key, CollisionBox *box);
+    // std::vector<CollisionBox *> GetCollisionBoxesFor(std::string);
+    static void AddCollisionBox(std::string key, CollisionBox *box) { return GetInstance().impl_AddCollisionBox(key, box); }
+    static std::vector<CollisionBox *> GetCollisionBoxesFor(std::string key) { return GetInstance().impl_GetCollisionBoxesFor(key); }
 
 private:
     static CollisionBoxManager s_Instance;
     CollisionBoxManager(){};
     bool Has(std::string);
 
-    // void impl_AddCollisionBox(std::string key, CollisionBox *box);
-    // std::vector<CollisionBox *> impl_GetCollisionBoxesFor(std::string);
+    void impl_AddCollisionBox(std::string key, CollisionBox *box);
+    std::vector<CollisionBox *> impl_GetCollisionBoxesFor(std::string);
 
     std::map<std::string, std::vector<CollisionBox *>> m_CollisionBoxes;
 };

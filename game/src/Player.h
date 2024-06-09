@@ -19,4 +19,5 @@ private:
     CollisionBox *m_collisionBox;
 
     void getDirectionFromInput();
+    Vector2 handleCollisionVectors(float delta);
 };
