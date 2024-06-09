@@ -1,7 +1,7 @@
-#include "CollisionBoxManager.h"
+
 #include <iostream>
-// std::vector<CollisionBox> CollisionBoxManager::m_CollisionBoxes;
-// std::map<std::string, std::vector<CollisionBox>> CollisionBoxes;
+
+#include "CollisionBoxManager.h"
 
 CollisionBoxManager CollisionBoxManager::s_Instance;
 void CollisionBoxManager::impl_AddCollisionBox(std::string key, CollisionBox *box)
@@ -16,12 +16,21 @@ void CollisionBoxManager::impl_AddCollisionBox(std::string key, CollisionBox *bo
     manager.m_CollisionBoxes[key].push_back(box);
 }
 
-std::vector<CollisionBox *> CollisionBoxManager::impl_GetCollisionBoxesFor(std::string key)
+std::vector<CollisionBox *> CollisionBoxManager::impl_GetCollisionBoxesFor(std::vector<std::string> keys)
 {
+    std::vector<CollisionBox *> boxes;
     CollisionBoxManager &manager = CollisionBoxManager::GetInstance();
-    if (!manager.Has(key))
-        return std::vector<CollisionBox *>{};
-    return manager.m_CollisionBoxes[key];
+
+    for (auto key : keys)
+    {
+        if (manager.Has(key))
+        {
+            std::vector<CollisionBox *> keyBoxes = manager.m_CollisionBoxes[key];
+            boxes.insert(boxes.end(), keyBoxes.begin(), keyBoxes.end());
+        }
+    }
+
+    return boxes;
 }
 
 bool CollisionBoxManager::Has(std::string key)

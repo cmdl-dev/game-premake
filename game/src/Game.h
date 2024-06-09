@@ -1,7 +1,13 @@
-
+#ifndef GAME_H
+#define GAME_H
 
 #include "raylib.h"
+
+#include "Player.h"
+#include "Tileset.h"
+
 #include <string>
+#include <vector>
 class Game
 {
 
@@ -20,6 +26,5 @@ public:
 private:
     int m_screenWidth;
     int m_screenHeight;
-    // const int screenWidth = 800;
-    // const int screenHeight = 450;
 };
+#endif

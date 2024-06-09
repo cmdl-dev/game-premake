@@ -1,32 +1,26 @@
 #include "CollisionBox.h"
 
 // TODO: Have the object centered around the box
-CollisionBox::CollisionBox(Vector2 position, int width, int height)
+CollisionBox::CollisionBox(Rectangle rect)
 {
-    m_position = position;
-    m_width = width;
-    m_height = height;
+    m_rect = rect;
 }
 
 void CollisionBox::draw()
 {
-    DrawRectangleLines(m_position.x, m_position.y, m_width, m_height, RED);
+    DrawRectangleLines(m_rect.x, m_rect.y, m_rect.height, m_rect.width, RED);
 }
 
 void CollisionBox::update(Vector2 newPosition)
 {
-    m_position = newPosition;
-}
-
-bool CollisionBox::isCollidingWith(CollisionBox box)
-{
-    return CheckCollisionRecs(getRectangle(), box.getRectangle());
+    m_rect.x = newPosition.x;
+    m_rect.y = newPosition.y;
 }
 
 bool CollisionBox::isCollidingWith(Rectangle box)
 {
 
-    return CheckCollisionRecs(getRectangle(), box);
+    return CheckCollisionRecs(m_rect, box);
 }
 
 Rectangle CollisionBox::collidingRect(CollisionBox box)
@@ -36,5 +30,5 @@ Rectangle CollisionBox::collidingRect(CollisionBox box)
 
 Rectangle CollisionBox::getRectangle()
 {
-    return Rectangle{m_position.x, m_position.y, m_width * 1.0f, m_height * 1.0f};
+    return m_rect;
 }

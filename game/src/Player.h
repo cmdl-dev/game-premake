@@ -1,15 +1,21 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "raylib.h"
 #include "CollisionBoxManager.h"
+#include "TextureManager.h"
 
 class Player
 {
 public:
     Player(const char *filePath, Vector2 initialPosition);
+
     void draw();
     void move(float delta);
 
 private:
     int m_velocity;
+
     Vector2 m_direction;
     Vector2 m_position;
     Vector2 m_lastGoodPosition;
@@ -21,3 +27,5 @@ private:
     void getDirectionFromInput();
     Vector2 handleCollisionVectors(float delta);
 };
+
+#endif

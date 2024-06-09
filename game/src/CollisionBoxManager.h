@@ -1,25 +1,13 @@
+#ifndef COLLISIONBOXMANAGER_H
+#define COLLISIONBOXMANAGER_H
 
 #include <vector>
 #include <map>
 #include <string>
 #include <memory>
+
 #include "CollisionBox.h"
 
-// class Singleton
-// {
-// public:
-//     Singleton(Singleton const&) = delete;
-//     Singleton& operator=(Singleton const&) = delete;
-
-//     static std::shared_ptr<Singleton> instance()
-//     {
-//         static std::shared_ptr<Singleton> s{new Singleton};
-//         return s;
-//     }
-
-// private:
-//     Singleton() {}
-// };
 class CollisionBoxManager
 {
 public:
@@ -31,10 +19,8 @@ public:
         return CollisionBoxManager::s_Instance;
     }
 
-    // void AddCollisionBox(std::string key, CollisionBox *box);
-    // std::vector<CollisionBox *> GetCollisionBoxesFor(std::string);
     static void AddCollisionBox(std::string key, CollisionBox *box) { return GetInstance().impl_AddCollisionBox(key, box); }
-    static std::vector<CollisionBox *> GetCollisionBoxesFor(std::string key) { return GetInstance().impl_GetCollisionBoxesFor(key); }
+    static std::vector<CollisionBox *> GetCollisionBoxesFor(std::vector<std::string> keys) { return GetInstance().impl_GetCollisionBoxesFor(keys); }
 
 private:
     static CollisionBoxManager s_Instance;
@@ -42,7 +28,8 @@ private:
     bool Has(std::string);
 
     void impl_AddCollisionBox(std::string key, CollisionBox *box);
-    std::vector<CollisionBox *> impl_GetCollisionBoxesFor(std::string);
+    std::vector<CollisionBox *> impl_GetCollisionBoxesFor(std::vector<std::string> keys);
 
     std::map<std::string, std::vector<CollisionBox *>> m_CollisionBoxes;
 };
+#endif

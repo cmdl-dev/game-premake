@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "Game.h"
+
 #include <iostream>
 
 const int SCREEN_HEIGHT = 450;
@@ -8,7 +9,6 @@ int main(void)
 {
     //--------------------------------------------------------------------------------------
     Game game{SCREEN_WIDTH, SCREEN_HEIGHT, "Deities Vessel"};
-
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
     while (!game.shouldRunGame())

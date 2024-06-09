@@ -1,34 +1,28 @@
+#ifndef COLISIONBOX_H
+#define COLISIONBOX_H
 
 #include "raylib.h"
 class CollisionBox
 {
 public:
-    CollisionBox(Vector2 position, int width, int height);
+    CollisionBox(Rectangle rect);
     void draw();
     void update(Vector2 newPosition);
 
-    bool isCollidingWith(CollisionBox box);
     bool isCollidingWith(Rectangle box);
-
     int getHeight()
     {
-        return m_height;
+        return m_rect.height;
     }
     int getWidth()
     {
-        return m_width;
-    }
-    Vector2 getPosition()
-    {
-        return m_position;
+        return m_rect.width;
     }
 
     Rectangle collidingRect(CollisionBox box);
-
     Rectangle getRectangle();
 
 private:
-    int m_width;
-    int m_height;
-    Vector2 m_position;
+    Rectangle m_rect;
 };
+#endif

@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "TextureManager.h"
 
 #include <format>
 #include <iostream>
@@ -10,7 +9,7 @@ Player::Player(const char *filePath, Vector2 initialPosition)
 {
     m_texture = TextureManager::LoadTextureFromFile(filePath);
 
-    m_collisionBox = new CollisionBox(initialPosition, m_texture.width + PADDING, m_texture.height + PADDING);
+    m_collisionBox = new CollisionBox(Rectangle{initialPosition.x, initialPosition.y, (float)m_texture.width + PADDING, (float)m_texture.height + PADDING});
     CollisionBoxManager::AddCollisionBox("player", m_collisionBox);
 
     m_velocity = 200;
@@ -55,21 +54,22 @@ Vector2 Player::handleCollisionVectors(float delta)
 
     Rectangle futurePosition = m_collisionBox->getRectangle();
 
-    // Filter our selfs
-    std::vector<CollisionBox *> boxes = filterOurOwnCollision(CollisionBoxManager::GetCollisionBoxesFor("player"));
+    // TODO: Get only close tiles
+    //  Filter our selfs
+    std::vector<CollisionBox *> boxes = filterOurOwnCollision(CollisionBoxManager::GetCollisionBoxesFor(std::vector<std::string>{"dirt", "player"}));
 
     futurePosition.x += c_VelocityX;
-    for (auto &&collisionBox : boxes)
+    for (CollisionBox *collisionBox : boxes)
     {
         if (collisionBox->isCollidingWith(futurePosition))
         {
             if (c_VelocityX > 0.0f)
             {
-                c_VelocityX = (collisionBox->getPosition().x - m_collisionBox->getWidth()) - m_collisionBox->getPosition().x;
+                c_VelocityX = (collisionBox->getRectangle().x - m_collisionBox->getWidth()) - m_collisionBox->getRectangle().x;
             }
             else if (c_VelocityX < 0.0f)
             {
-                c_VelocityX = (collisionBox->getPosition().x + collisionBox->getWidth()) - m_collisionBox->getPosition().x;
+                c_VelocityX = (collisionBox->getRectangle().x + collisionBox->getWidth()) - m_collisionBox->getRectangle().x;
             }
         }
     }
@@ -77,17 +77,17 @@ Vector2 Player::handleCollisionVectors(float delta)
     futurePosition.x = m_collisionBox->getRectangle().x + c_VelocityX;
 
     futurePosition.y += c_VelocityY;
-    for (auto &&collisionBox : boxes)
+    for (CollisionBox *collisionBox : boxes)
     {
         if (collisionBox->isCollidingWith(futurePosition))
         {
             if (c_VelocityY > 0.0f)
             {
-                c_VelocityY = (collisionBox->getPosition().y - m_collisionBox->getHeight()) - m_collisionBox->getPosition().y;
+                c_VelocityY = (collisionBox->getRectangle().y - m_collisionBox->getHeight()) - m_collisionBox->getRectangle().y;
             }
             else if (c_VelocityY < 0.0f)
             {
-                c_VelocityY = (collisionBox->getPosition().y + collisionBox->getHeight()) - m_collisionBox->getPosition().y;
+                c_VelocityY = (collisionBox->getRectangle().y + collisionBox->getHeight()) - m_collisionBox->getRectangle().y;
             }
         }
     }
@@ -105,4 +105,6 @@ void Player::move(float delta)
     m_position.y += pos.y;
 
     m_collisionBox->update(m_position);
+
+    std::cout << "x: " << m_position.x << " y: " << m_position.y << "\n";
 }
