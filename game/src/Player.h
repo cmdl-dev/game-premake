@@ -8,6 +8,7 @@ class Player : public CharacterObject
 {
 public:
     Player(const char *filePath, Vector2 initialPosition, std::string group);
+    Player(const char *filePath, AnimatedSpriteInfo spriteInfo, std::string group);
 
 private:
     void getDirectionFromInput();

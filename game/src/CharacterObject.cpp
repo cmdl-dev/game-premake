@@ -5,22 +5,40 @@ const int PADDING = 10;
 CharacterObject::CharacterObject(const char *filePath, Vector2 initialPosition, std::string group)
 {
     m_texture = TextureManager::LoadTextureFromFile(filePath);
+    init(initialPosition, Rectangle{initialPosition.x, initialPosition.y, (float)m_texture.width + PADDING, (float)m_texture.height + PADDING}, group);
+}
 
-    m_collisionBox = new CollisionBox(Rectangle{initialPosition.x, initialPosition.y, (float)m_texture.width + PADDING, (float)m_texture.height + PADDING});
+CharacterObject::CharacterObject(const char *filePath, AnimatedSpriteInfo spriteInfo, std::string group)
+{
+    m_texture = TextureManager::LoadTextureFromFile(filePath);
+    m_animatedSprite = new SpriteAnimation(m_texture, spriteInfo);
+
+    init(spriteInfo.pos,
+         Rectangle{spriteInfo.pos.x, spriteInfo.pos.y, (float)m_texture.width / spriteInfo.animCols, (float)m_texture.height / spriteInfo.animRows}, group);
+}
+
+void CharacterObject::init(Vector2 position, Rectangle collisionRect, std::string group)
+{
+    m_collisionBox = new CollisionBox(collisionRect);
     m_group = group;
-    // m_collisionGroup = std::vector<std::string>{"enemy", "dirt"};
 
     if (m_group != std::string())
         CollisionBoxManager::AddCollisionBox(m_group, m_collisionBox);
 
     m_velocity = 200;
     m_direction = Vector2{0, 0};
-    m_position = initialPosition;
+    m_position = position;
 }
-
 void CharacterObject::draw()
 {
-    TextureManager::Draw(m_texture, m_position);
+    if (hasAnimations())
+    {
+        m_animatedSprite->draw();
+    }
+    else
+    {
+        TextureManager::Draw(m_texture, m_position);
+    }
     m_collisionBox->draw();
 }
 
@@ -81,4 +99,9 @@ void CharacterObject::move(float delta)
     m_position.y += pos.y;
 
     m_collisionBox->update(m_position);
+
+    if (hasAnimations())
+    {
+        m_animatedSprite->move(m_position);
+    }
 }

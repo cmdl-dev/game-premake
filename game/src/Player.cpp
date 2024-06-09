@@ -11,6 +11,15 @@ Player::Player(const char *filePath, Vector2 initialPosition, std::string group)
     setVelocity(200);
 }
 
+Player::Player(const char *filePath, AnimatedSpriteInfo spriteInfo, std::string group) : CharacterObject{filePath, spriteInfo, group}
+{
+    setCollisionGroup(std::vector<std::string>{"enemy", "dirt"});
+    setVelocity(200);
+
+    addAnimPosition("attackRight", AnimationInfo{Vector2{0, 0}, 4});
+    setFrameSpeed(8);
+}
+
 void Player::getDirectionFromInput()
 {
     Vector2 newDir = Vector2{0, 0};
@@ -28,5 +37,6 @@ void Player::getDirectionFromInput()
 
 void Player::beforeMoveAction()
 {
+    playAnimation("attackRight");
     getDirectionFromInput();
 }

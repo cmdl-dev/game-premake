@@ -1,8 +1,11 @@
 #include "TextureManager.h"
+#include <assert.h>
 
 Texture2D TextureManager::LoadTextureFromFile(const char *fileName)
 {
     Texture2D texture = LoadTexture(fileName);
+    assert(texture.width != 0);
+
     return texture;
 }
 
