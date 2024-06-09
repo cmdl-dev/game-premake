@@ -1,6 +1,5 @@
 #include "Game.h"
 
-Texture2D tex;
 Player *player;
 Player *enemy;
 Tileset *map;
@@ -15,7 +14,7 @@ Game::Game(int width, int height, std::string title)
     player = new Player("game/assets/enemy/Phoenix.png", Vector2{40, 40});
 
     // CollisionBoxManager::
-    enemy = new Player("game/assets/player/HealingTexture.png", Vector2{100, 100});
+    // enemy = new Player("game/assets/player/HealingTexture.png", Vector2{100, 100});
 
     map = new Tileset();
 }
@@ -28,7 +27,6 @@ void Game::tick(float delta)
     update(delta);
     draw();
 }
-
 void Game::update(float delta)
 {
     player->move(delta);
@@ -44,7 +42,7 @@ void Game::draw()
     map->draw();
     // DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
     player->draw();
-    enemy->draw();
+    // enemy->draw();
 
     DrawFPS(20, 20);
     EndDrawing();

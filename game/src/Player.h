@@ -2,30 +2,17 @@
 #define PLAYER_H
 
 #include "raylib.h"
-#include "CollisionBoxManager.h"
-#include "TextureManager.h"
+#include "CharacterObject.h"
 
-class Player
+class Player : public CharacterObject
 {
 public:
     Player(const char *filePath, Vector2 initialPosition);
 
-    void draw();
-    void move(float delta);
+    void beforeMoveAction() override;
 
 private:
-    int m_velocity;
-
-    Vector2 m_direction;
-    Vector2 m_position;
-    Vector2 m_lastGoodPosition;
-    Texture2D m_texture;
-
-    std::vector<CollisionBox *> filterOurOwnCollision(std::vector<CollisionBox *> arr);
-    CollisionBox *m_collisionBox;
-
     void getDirectionFromInput();
-    Vector2 handleCollisionVectors(float delta);
 };
 
 #endif
