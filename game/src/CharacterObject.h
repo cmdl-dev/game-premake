@@ -22,6 +22,7 @@ public:
 
     void setVelocity(int vel) { m_velocity = vel; }
     void setDirection(Vector2 newDirection) { m_direction = newDirection; };
+    Vector2 getDirection() { return m_direction; };
 
     void setCollisionGroup(std::vector<std::string> vec) { m_collisionGroup = vec; };
 
@@ -36,11 +37,11 @@ public:
             m_animatedSprite->play(name);
         }
     };
-    void addAnimPosition(std::string name, AnimationInfo info)
+    void addAnimPosition(AnimationInfo info)
     {
         if (hasAnimations())
         {
-            m_animatedSprite->addAnimationPositions(name, info);
+            m_animatedSprite->addAnimationPositions(info);
         }
     };
     void setFrameSpeed(int speed)

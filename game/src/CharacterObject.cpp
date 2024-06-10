@@ -11,6 +11,8 @@ CharacterObject::CharacterObject(const char *filePath, Vector2 initialPosition, 
 CharacterObject::CharacterObject(const char *filePath, AnimatedSpriteInfo spriteInfo, std::string group)
 {
     m_texture = TextureManager::LoadTextureFromFile(filePath);
+    m_texture.height *= 2;
+    m_texture.width *= 2;
     m_animatedSprite = new SpriteAnimation(m_texture, spriteInfo);
 
     init(spriteInfo.pos,

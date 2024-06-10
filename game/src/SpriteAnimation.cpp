@@ -1,4 +1,5 @@
 #include "SpriteAnimation.h"
+#include <format>
 
 SpriteAnimation::SpriteAnimation(Texture2D texture, AnimatedSpriteInfo spriteInfo)
 {
@@ -16,9 +17,6 @@ SpriteAnimation::SpriteAnimation(Texture2D texture, AnimatedSpriteInfo spriteInf
     m_frameRec = getRectangle(Vector2{0, 0});
 
     m_position = spriteInfo.pos;
-
-    // addAnimationPositions("attackRight", AnimationInfo{Vector2{0, 0}, 4});
-    // addAnimationPositions("attackRight2", AnimationInfo{Vector2{0, 0}, 7});
 }
 
 void SpriteAnimation::draw()
@@ -29,18 +27,25 @@ void SpriteAnimation::draw()
 
 void SpriteAnimation::play(std::string name)
 {
-    if (m_isAnimationPlaying)
+    if (m_currentAnimation.name == name)
         return;
+    // if (m_isAnimationPlaying)
+    //     return;
     if (!hasAnimation(name))
     {
         // TODO:WARNING HERE
         std::cout << "Animation: Animation not found." << "\n";
         return;
     }
+    if (name != "idle")
+    {
+        // std::cout << "Animation Playing " << name << "\n";
+    }
 
     AnimationInfo info = m_animationPosition[name];
     m_maxFrame = info.maxFrames;
     m_frameRec = getRectangle(info.position);
+    m_shouldReset = true;
 
     m_currentAnimation = info;
 }
@@ -50,9 +55,9 @@ void SpriteAnimation::move(Vector2 newPosition)
     m_position = newPosition;
 }
 
-void SpriteAnimation::addAnimationPositions(std::string name, AnimationInfo info)
+void SpriteAnimation::addAnimationPositions(AnimationInfo info)
 {
-    m_animationPosition[name] = info;
+    m_animationPosition[info.name] = info;
 }
 
 void SpriteAnimation::setCurrentFrame()
@@ -64,6 +69,16 @@ void SpriteAnimation::setCurrentFrame()
     // Time for next frame
     if (m_frameCounter >= (60 / m_frameSpeed))
     {
+        // std::cout << std::format("Current animation \n\tname: {}\n", m_currentAnimation.name);
+        if (m_shouldReset)
+        {
+            m_shouldReset = false;
+            m_isAnimationPlaying = false;
+            m_frameCounter = 0;
+            m_currentFrame = 0;
+            m_currentRow = 0;
+        }
+        // TODO: Need signaling
         m_isAnimationPlaying = true;
         m_frameCounter = 0;
         m_currentFrame++;

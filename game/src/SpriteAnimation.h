@@ -12,6 +12,7 @@ struct AnimationInfo
 {                     // Structure declaration
     Vector2 position; // Member (int variable)
     int maxFrames;    // Member (string variable)
+    std::string name;
 };
 
 struct AnimatedSpriteInfo
@@ -30,7 +31,7 @@ public:
     void play(std::string name);
     void move(Vector2 newPosition);
 
-    void addAnimationPositions(std::string name, AnimationInfo info);
+    void addAnimationPositions(AnimationInfo info);
     void setFrameSpeed(int speed) { m_frameSpeed = speed; };
 
     Texture2D m_texture;
@@ -52,6 +53,7 @@ private:
     Rectangle m_frameRec;
     AnimationInfo m_currentAnimation;
 
+    bool m_shouldReset = false;
     bool m_isAnimationPlaying = false;
 
     int m_animCols;
