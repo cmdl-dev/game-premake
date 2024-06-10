@@ -11,53 +11,64 @@ endif
 ifeq ($(config),debug_x64)
   raylib_config = debug_x64
   RaylibTest_config = debug_x64
+  ImGui_config = debug_x64
 
 else ifeq ($(config),debug_x86)
   raylib_config = debug_x86
   RaylibTest_config = debug_x86
+  ImGui_config = debug_x86
 
 else ifeq ($(config),debug_arm64)
   raylib_config = debug_arm64
   RaylibTest_config = debug_arm64
+  ImGui_config = debug_arm64
 
 else ifeq ($(config),release_x64)
   raylib_config = release_x64
   RaylibTest_config = release_x64
+  ImGui_config = release_x64
 
 else ifeq ($(config),release_x86)
   raylib_config = release_x86
   RaylibTest_config = release_x86
+  ImGui_config = release_x86
 
 else ifeq ($(config),release_arm64)
   raylib_config = release_arm64
   RaylibTest_config = release_arm64
+  ImGui_config = release_arm64
 
 else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := raylib RaylibTest
+PROJECTS := raylib RaylibTest ImGui
 
 .PHONY: all clean help $(PROJECTS) 
 
 all: $(PROJECTS)
 
-raylib:
+raylib: ImGui
 ifneq (,$(raylib_config))
 	@echo "==== Building raylib ($(raylib_config)) ===="
 	@${MAKE} --no-print-directory -C raylib-master -f Makefile config=$(raylib_config)
 endif
 
-RaylibTest: raylib
+RaylibTest: raylib 
 ifneq (,$(RaylibTest_config))
 	@echo "==== Building RaylibTest ($(RaylibTest_config)) ===="
 	@${MAKE} --no-print-directory -C game -f Makefile config=$(RaylibTest_config)
 endif
 
+ImGui:
+ifneq (,$(ImGui_config))
+	@echo "==== Building rlImGui ($(ImGui_config)) ===="
+	@${MAKE} --no-print-directory -C build -f ImGui.make config=$(ImGui_config)
+endif
 clean:
 	@${MAKE} --no-print-directory -C raylib-master -f Makefile clean
 	@${MAKE} --no-print-directory -C game -f Makefile clean
-
+	@${MAKE} --no-print-directory -C build -f ImGui.make clean
 help:
 	@echo "Usage: make [config=name] [target]"
 	@echo ""

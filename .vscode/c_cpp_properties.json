@@ -4,6 +4,7 @@
       "name": "Win32",
       "includePath": [
         "${workspaceFolder}/raylib-master/src",
+        "${workspaceFolder}/imgui-master/",
         "${workspaceFolder}/game/**"
       ],
       "defines": [
@@ -21,6 +22,7 @@
       "name": "Mac",
       "includePath": [
         "${workspaceFolder}/raylib-master/src",
+        "${workspaceFolder}/imgui-master/src",
         "${workspaceFolder}/game/**"
       ],
       "defines": [
@@ -42,6 +44,7 @@
       "name": "Linux",
       "includePath": [
         "${workspaceFolder}/raylib-master/src",
+        "${workspaceFolder}/imgui-master/",
         "${workspaceFolder}/game/**"
       ],
       "defines": [

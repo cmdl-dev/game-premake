@@ -1,7 +1,8 @@
 raylib-master
+imgui-master
 _build
 _bin
 .vs
 /bin
-/build
+/build/obj/*
 obj
