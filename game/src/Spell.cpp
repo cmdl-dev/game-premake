@@ -10,8 +10,8 @@ Spell::Spell(const char *fileName, AnimatedSpriteInfo spriteInfo, int spellId)
     m_spellId = spellId;
 
     m_position = spriteInfo.pos;
-    m_animatedSprite->addAnimationPositions(AnimationInfo{Vector2{0, 0}, 4, "active"});
-    m_animatedSprite->setFrameSpeed(2);
+    m_animatedSprite->addAnimationPositions(AnimationInfo{Vector2{4, 0}, 4, "active"});
+    m_animatedSprite->setFrameSpeed(8);
     m_animatedSprite->play("active");
 }
 

@@ -22,8 +22,8 @@ public:
 
 private:
     int m_spellId = -1;
-    int m_velocity = 50;
-    int m_maxLife = 10 * 60;
+    int m_velocity = 300;
+    int m_maxLife = 5 * 60;
     int m_life = 0;
     Vector2 m_position;
     Vector2 m_direction;

@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include <iostream>
+#include <vector>
 
 struct AnimationInfo
 {                     // Structure declaration
@@ -38,11 +39,6 @@ public:
 
 private:
     bool hasAnimation(std::string name) { return m_animationPosition.find(name) != m_animationPosition.end(); };
-    void resetAnimation()
-    {
-        m_frameRec = getRectangle(m_currentAnimation.position);
-        m_maxFrame = m_currentAnimation.maxFrames;
-    }
 
     void setCurrentFrame();
 
@@ -52,6 +48,8 @@ private:
     Vector2 m_position;
     Rectangle m_frameRec;
     AnimationInfo m_currentAnimation;
+
+    std::vector<Rectangle> m_animationPath;
 
     bool m_shouldReset = false;
     bool m_isAnimationPlaying = false;

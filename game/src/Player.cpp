@@ -7,11 +7,7 @@ Player::Player(const char *filePath, Vector2 initialPosition, std::string group)
 {
     setCollisionGroup(std::vector<std::string>{"enemy", "dirt"});
     setVelocity(50);
-    // const char *fileName, AnimatedSpriteInfo spriteInfo
 
-    // int animCols;
-    // int animRows;
-    // Vector2 pos;
     m_spellsArr.reserve(2000);
 }
 
@@ -59,22 +55,22 @@ void Player::beforeMoveAction(float delta)
 
     Vector2 dir = getDirection();
 
-    // if (dir.x == 1)
-    //     playAnimation("walk_e");
-    // if (dir.x == -1)
-    //     playAnimation("walk_w");
-    // if (dir.y == -1)
-    //     playAnimation("walk_n");
-    // if (dir.y == 1)
-    //     playAnimation("walk_s");
+    if (dir.x == 1)
+        playAnimation("walk_e");
+    if (dir.x == -1)
+        playAnimation("walk_w");
+    if (dir.y == -1)
+        playAnimation("walk_n");
+    if (dir.y == 1)
+        playAnimation("walk_s");
 
-    // if (dir.x == 0 && dir.y == 0)
-    //     playAnimation("idle");
+    if (dir.x == 0 && dir.y == 0)
+        playAnimation("idle");
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
         checkForDeadSpells();
-        std::cout << "mouse criled " << "\n";
+
         fireSpell();
     }
     moveSpells(delta);

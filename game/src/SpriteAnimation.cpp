@@ -52,9 +52,37 @@ void SpriteAnimation::play(std::string name)
     }
 
     AnimationInfo info = m_animationPosition[name];
-    m_maxFrame = info.maxFrames;
-    m_frameRec = getRectangle(info.position);
+    // TODO: Move to a different location
+    /** Create Path from info */
+    // m_frameRec = getRectangle(info.position);
+
     m_shouldReset = true;
+    m_maxFrame = info.maxFrames;
+
+    int currentCol = info.position.x;
+    int currentRow = info.position.y;
+    std::vector<Rectangle> rectArr;
+    for (int i = 0; i < info.maxFrames; ++i)
+    {
+        float xStart = currentCol * m_widthOffset;
+        float yStart = currentRow * m_heightOffset;
+
+        // std::cout << std::format("Pushing in x: {} y: {}\n", xStart, yStart);
+        currentCol++;
+        Rectangle rect = Rectangle{xStart, yStart};
+        rectArr.push_back(rect);
+        // We are going over the width
+        // Not working about yStart b/c We are going from left to right
+        if (xStart >= m_texture.width)
+        {
+            // Go to the next line
+            currentRow++;
+            // Reset the x
+            currentCol = 0;
+        }
+    }
+    m_animationPath = rectArr;
+    /************** */
 
     m_currentAnimation = info;
 }
@@ -69,12 +97,11 @@ void SpriteAnimation::addAnimationPositions(AnimationInfo info)
     m_animationPosition[info.name] = info;
 }
 
-// TODO: Needs Refacter
-// Add in a start position and end position for each animation
-// Iterate over each set position
+// BUG: When we switch to a different animation we play the current animaiton for a bit b/c of the time inbetween frame ticks
 void SpriteAnimation::setCurrentFrame()
 {
-
+    if (m_animationPath.empty())
+        return;
     // m_isAnimationPlaying = false;
     m_frameCounter++; // increment past 0 for the first frame
 
@@ -93,24 +120,21 @@ void SpriteAnimation::setCurrentFrame()
         // TODO: Need signaling
         m_isAnimationPlaying = true;
         m_frameCounter = 0;
-        m_currentFrame++;
 
-        if (m_currentFrame % m_animCols == 0 && m_currentFrame != 0)
-            m_currentRow++;
+        // std::cout << std::format("Current animation path {}) x: {} y: {}\n", m_currentFrame, m_animationPath[m_currentFrame].x, m_animationPath[m_currentFrame].y);
+
+        m_frameRec.x = m_animationPath[m_currentFrame].x;
+        m_frameRec.y = m_animationPath[m_currentFrame].y;
+
+        m_currentFrame++;
 
         if (m_currentFrame >= m_maxFrame)
         {
+            // Signal
             m_isAnimationPlaying = false;
             m_currentFrame = 0;
             m_currentRow = 0;
-            resetAnimation();
         }
-
-        // NOTE: Only supports animations that go from left to right not up and down
-        m_frameRec.x = (float)m_currentFrame * m_texture.width / m_animCols;
-
-        if (m_currentRow > 0)
-            m_frameRec.y = (float)m_currentRow * m_texture.height / m_animRows;
     }
 }
 
