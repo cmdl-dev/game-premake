@@ -7,6 +7,9 @@
 #include "Enemy.h"
 #include "Tileset.h"
 
+#include "imgui.h"
+#include "rlImGui.h"
+
 #include <string>
 #include <vector>
 class Game
