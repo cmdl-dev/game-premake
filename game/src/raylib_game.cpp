@@ -1,6 +1,9 @@
 #include "raylib.h"
 #include "Game.h"
 
+#include "imgui.h"
+#include "rlImGui.h"
+
 #include <iostream>
 
 const int SCREEN_HEIGHT = 450;

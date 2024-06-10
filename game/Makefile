@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I. -Isrc -Iinclude -I../raylib-master/src -I../raylib-master/src/external -I../raylib-master/src/external/glfw/include
+INCLUDES += -I. -Isrc -Iinclude -I../raylib-master/src -I../raylib-master/src/external -I../raylib-master/src/external/glfw/include -I.. -I../imgui -I../imgui-master
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -38,8 +38,10 @@ OBJDIR = obj/x64/Debug
 DEFINES += -DDEBUG -DPLATFORM_DESKTOP -DGRAPHICS_API_OPENGL_33 -D_WIN32
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c99
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++20
-LIBS += ../bin/Debug/raylib.lib -lwinmm -lgdi32
-LDDEPS += ../bin/Debug/raylib.lib
+
+LIBS += ../bin/Debug/raylib.lib ../bin/Debug/rlImGui.lib -lwinmm -lgdi32
+LDDEPS += ../bin/Debug/raylib.lib ../bin/Debug/rlImGui.lib
+
 ALL_LDFLAGS += $(LDFLAGS) -L../bin/Debug -L/usr/lib64 -m64
 
 else ifeq ($(config),debug_x86)
@@ -49,8 +51,10 @@ OBJDIR = obj/x86/Debug
 DEFINES += -DDEBUG -DPLATFORM_DESKTOP -DGRAPHICS_API_OPENGL_33 -D_WIN32
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c99
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++20
-LIBS += ../bin/Debug/raylib.lib -lwinmm -lgdi32
-LDDEPS += ../bin/Debug/raylib.lib
+
+LIBS += ../bin/Debug/raylib.lib ../bin/Debug/rlImGui.lib -lwinmm -lgdi32
+LDDEPS += ../bin/Debug/raylib.lib ../bin/Debug/rlImGui.lib
+
 ALL_LDFLAGS += $(LDFLAGS) -L../bin/Debug -L/usr/lib32 -m32
 
 else ifeq ($(config),debug_arm64)
@@ -60,8 +64,10 @@ OBJDIR = obj/ARM64/Debug
 DEFINES += -DDEBUG -DPLATFORM_DESKTOP -DGRAPHICS_API_OPENGL_33 -D_WIN32
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -std=c99
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -std=c++20
-LIBS += ../bin/Debug/raylib.lib -lwinmm -lgdi32
-LDDEPS += ../bin/Debug/raylib.lib
+
+LIBS += ../bin/Debug/raylib.lib ../bin/Debug/rlImGui.lib -lwinmm -lgdi32
+LDDEPS += ../bin/Debug/raylib.lib ../bin/Debug/rlImGui.lib
+
 ALL_LDFLAGS += $(LDFLAGS) -L../bin/Debug
 
 else ifeq ($(config),release_x64)
@@ -71,8 +77,10 @@ OBJDIR = obj/x64/Release
 DEFINES += -DNDEBUG -DPLATFORM_DESKTOP -DGRAPHICS_API_OPENGL_33 -D_WIN32
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c99
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++20
-LIBS += ../bin/Release/raylib.lib -lwinmm -lgdi32
-LDDEPS += ../bin/Release/raylib.lib
+
+LIBS += ../bin/Release/raylib.lib ../bin/Release/rlImGui.lib -lwinmm -lgdi32
+LDDEPS += ../bin/Release/raylib.lib ../bin/Release/rlImGui.lib
+
 ALL_LDFLAGS += $(LDFLAGS) -L../bin/Release -L/usr/lib64 -m64 -mwindows -s
 
 else ifeq ($(config),release_x86)
@@ -82,8 +90,10 @@ OBJDIR = obj/x86/Release
 DEFINES += -DNDEBUG -DPLATFORM_DESKTOP -DGRAPHICS_API_OPENGL_33 -D_WIN32
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c99
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++20
-LIBS += ../bin/Release/raylib.lib -lwinmm -lgdi32
-LDDEPS += ../bin/Release/raylib.lib
+
+LIBS += ../bin/Release/raylib.lib ../bin/Release/rlImGui.lib -lwinmm -lgdi32
+LDDEPS += ../bin/Release/raylib.lib ../bin/Release/rlImGui.lib
+
 ALL_LDFLAGS += $(LDFLAGS) -L../bin/Release -L/usr/lib32 -m32 -mwindows -s
 
 else ifeq ($(config),release_arm64)
@@ -93,8 +103,8 @@ OBJDIR = obj/ARM64/Release
 DEFINES += -DNDEBUG -DPLATFORM_DESKTOP -DGRAPHICS_API_OPENGL_33 -D_WIN32
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2 -std=c99
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
-LIBS += ../bin/Release/raylib.lib -lwinmm -lgdi32
-LDDEPS += ../bin/Release/raylib.lib
+LIBS += ../bin/Release/raylib.lib ../bin/Release/rlImGui.lib -lwinmm -lgdi32
+LDDEPS += ../bin/Release/raylib.lib ../bin/Release/rlImGui.lib
 ALL_LDFLAGS += $(LDFLAGS) -L../bin/Release -mwindows -s
 
 endif
