@@ -23,6 +23,7 @@ public:
     void setVelocity(int vel) { m_velocity = vel; }
     void setDirection(Vector2 newDirection) { m_direction = newDirection; };
     Vector2 getDirection() { return m_direction; };
+    Vector2 getPosition() { return m_position; };
 
     void setCollisionGroup(std::vector<std::string> vec) { m_collisionGroup = vec; };
 
@@ -67,7 +68,8 @@ private:
     std::string m_group = std::string();
 
     Vector2 handleCollision(float delta);
-    virtual void beforeMoveAction() {};
+    virtual void beforeMoveAction(float delta) {};
+    virtual void beforeDrawAction() {};
     void init(Vector2 position, Rectangle collisionRec, std::string group);
 };
 

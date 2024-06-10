@@ -1,13 +1,18 @@
 #include "Player.h"
 
 #include <iostream>
-
 // TODO: Handle SCALE
 const int PADDING = 10;
 Player::Player(const char *filePath, Vector2 initialPosition, std::string group) : CharacterObject{filePath, initialPosition, group}
 {
     setCollisionGroup(std::vector<std::string>{"enemy", "dirt"});
     setVelocity(50);
+    // const char *fileName, AnimatedSpriteInfo spriteInfo
+
+    // int animCols;
+    // int animRows;
+    // Vector2 pos;
+    m_spellsArr.reserve(2000);
 }
 
 Player::Player(const char *filePath, AnimatedSpriteInfo spriteInfo, std::string group) : CharacterObject{filePath, spriteInfo, group}
@@ -21,6 +26,16 @@ Player::Player(const char *filePath, AnimatedSpriteInfo spriteInfo, std::string 
     addAnimPosition(AnimationInfo{Vector2{0, 6}, 4, "walk_s"});
     addAnimPosition(AnimationInfo{Vector2{0, 7}, 4, "walk_n"});
     setFrameSpeed(4);
+
+    m_spellsArr.reserve(2000);
+}
+
+void Player::fireSpell()
+{
+    if (getSpellArraySize() >= 100)
+        return;
+
+    m_spellsArr.push_back(new Spell("game/assets/textures/lightningBallEffect.png", AnimatedSpriteInfo{16, 1, getPosition()}, getSpellArraySize()));
 }
 
 void Player::getDirectionFromInput()
@@ -38,22 +53,89 @@ void Player::getDirectionFromInput()
     setDirection(newDir);
 }
 
-void Player::beforeMoveAction()
+void Player::beforeMoveAction(float delta)
 {
     getDirectionFromInput();
 
     Vector2 dir = getDirection();
 
-    if (dir.x == 1)
-        playAnimation("walk_e");
-    if (dir.x == -1)
-        playAnimation("walk_w");
+    // if (dir.x == 1)
+    //     playAnimation("walk_e");
+    // if (dir.x == -1)
+    //     playAnimation("walk_w");
+    // if (dir.y == -1)
+    //     playAnimation("walk_n");
+    // if (dir.y == 1)
+    //     playAnimation("walk_s");
 
-    if (dir.y == -1)
-        playAnimation("walk_n");
-    if (dir.y == 1)
-        playAnimation("walk_s");
+    // if (dir.x == 0 && dir.y == 0)
+    //     playAnimation("idle");
 
-    if (dir.x == 0 && dir.y == 0)
-        playAnimation("idle");
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+    {
+        checkForDeadSpells();
+        std::cout << "mouse criled " << "\n";
+        fireSpell();
+    }
+    moveSpells(delta);
+}
+
+void Player::beforeDrawAction()
+{
+    drawSpells();
+}
+
+void Player::checkForDeadSpells()
+{
+    for (auto &&spell : m_spellsArr)
+    {
+        if (spell->isDead())
+        {
+            removeDeadSpell(spell->getSpellId());
+        }
+    }
+}
+
+void Player::removeDeadSpell(int spellId)
+{
+    for (int i = 0; i < m_spellsArr.size(); i++)
+    {
+        Spell *spell = m_spellsArr[i];
+        if (spell->getSpellId() == spellId)
+        {
+            spell->removeSpell();
+            delete spell;
+            m_spellsArr.erase(m_spellsArr.begin() + i);
+        }
+    }
+}
+
+void Player::moveSpells(float delta)
+{
+    for (int i = 0; i < getSpellArraySize(); i++)
+    {
+        Spell *spell = m_spellsArr[i];
+        if (!spell->isDead())
+        {
+            spell->update();
+            spell->move(delta);
+        }
+    }
+}
+
+void Player::drawSpells()
+{
+    for (int i = 0; i < getSpellArraySize(); i++)
+    {
+        Spell *spell = m_spellsArr[i];
+        if (!spell->isDead())
+        {
+            spell->draw();
+        }
+    }
+}
+
+int Player::getSpellArraySize()
+{
+    return m_spellsArr.size();
 }

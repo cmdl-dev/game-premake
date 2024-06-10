@@ -33,6 +33,7 @@ void CharacterObject::init(Vector2 position, Rectangle collisionRect, std::strin
 }
 void CharacterObject::draw()
 {
+    beforeDrawAction();
     if (hasAnimations())
     {
         m_animatedSprite->draw();
@@ -93,7 +94,7 @@ Vector2 CharacterObject::handleCollision(float delta)
 }
 void CharacterObject::move(float delta)
 {
-    beforeMoveAction();
+    beforeMoveAction(delta);
     // Computed X/Y
     Vector2 pos = handleCollision(delta);
 

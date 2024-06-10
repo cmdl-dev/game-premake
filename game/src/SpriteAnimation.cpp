@@ -3,6 +3,15 @@
 
 SpriteAnimation::SpriteAnimation(Texture2D texture, AnimatedSpriteInfo spriteInfo)
 {
+    if (spriteInfo.animCols == 0)
+    {
+        spriteInfo.animCols = 1;
+    }
+    if (spriteInfo.animRows == 0)
+    {
+        spriteInfo.animRows = 1;
+    }
+
     m_texture = texture;
 
     m_animCols = spriteInfo.animCols;
@@ -60,6 +69,9 @@ void SpriteAnimation::addAnimationPositions(AnimationInfo info)
     m_animationPosition[info.name] = info;
 }
 
+// TODO: Needs Refacter
+// Add in a start position and end position for each animation
+// Iterate over each set position
 void SpriteAnimation::setCurrentFrame()
 {
 
