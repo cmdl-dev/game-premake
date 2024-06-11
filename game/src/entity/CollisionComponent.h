@@ -8,6 +8,6 @@
 class CollisionComponent : public Hitbox
 {
 public:
-    CollisionComponent(Rectangle initialPosition, Color color = RED) : Hitbox{initialPosition, color} {};
+    CollisionComponent(Rectangle initialPosition, Size parentSize, Color color = (Color){230, 41, 55, 150}) : Hitbox{initialPosition, parentSize, color} {};
 };
 #endif

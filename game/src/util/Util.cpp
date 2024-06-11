@@ -7,7 +7,7 @@ Vector2 Util::GetAdjustedVectorFromCollision(Hitbox *collisionBox, std::vector<s
 
     Vector2 adjustedVector = calculatedVector;
     Rectangle futurePosition = collisionBox->getRect();
-    std::vector<Hitbox *> boxes = CollisionBoxManager::GetCollisionBoxesFor(groups);
+    std::vector<Hitbox *> boxes = HitboxManager::GetCollisionBoxesFor(groups);
 
     futurePosition.x += calculatedVector.x;
     for (Hitbox *cBox : boxes)

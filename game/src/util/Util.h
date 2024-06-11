@@ -3,7 +3,7 @@
 #define UTIL_H
 
 #include "raylib.h"
-#include "CollisionBoxManager.h"
+#include "HitboxManager.h"
 // #include "Hitbox.h"
 
 #include <vector>

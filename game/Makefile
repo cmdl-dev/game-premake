@@ -123,7 +123,7 @@ GENERATED += $(OBJDIR)/raylib_game.o
 GENERATED += $(OBJDIR)/Game.o
 GENERATED += $(OBJDIR)/TextureManager.o
 GENERATED += $(OBJDIR)/Player.o
-GENERATED += $(OBJDIR)/CollisionBoxManager.o
+GENERATED += $(OBJDIR)/HitboxManager.o
 GENERATED += $(OBJDIR)/Tileset.o
 GENERATED += $(OBJDIR)/TileObject.o
 GENERATED += $(OBJDIR)/Enemy.o
@@ -143,7 +143,7 @@ OBJECTS += $(OBJDIR)/raylib_game.o
 OBJECTS += $(OBJDIR)/Game.o
 OBJECTS += $(OBJDIR)/TextureManager.o
 OBJECTS += $(OBJDIR)/Player.o
-OBJECTS += $(OBJDIR)/CollisionBoxManager.o
+OBJECTS += $(OBJDIR)/HitboxManager.o
 OBJECTS += $(OBJDIR)/Tileset.o
 OBJECTS += $(OBJDIR)/TileObject.o
 OBJECTS += $(OBJDIR)/Enemy.o
@@ -232,7 +232,7 @@ $(OBJDIR)/TextureManager.o: src/TextureManager.cpp
 $(OBJDIR)/Player.o: src/Player.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/CollisionBoxManager.o: src/CollisionBoxManager.cpp
+$(OBJDIR)/HitboxManager.o: src/HitboxManager.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Tileset.o: src/Tileset.cpp

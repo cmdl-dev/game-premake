@@ -8,19 +8,10 @@
 #include "util/VectorUtil.h"
 #include "util/Util.h"
 
+#include "HealthComponent.h"
 #include "HitboxComponent.h"
+#include "HurtboxComponent.h"
 #include "CollisionComponent.h"
-
-class HealthComponent
-{
-public:
-    HealthComponent(int health) { m_health = health; }
-    void takeDamage(int dmg) { m_health -= dmg; };
-    bool hasDied() { return m_health <= 0; };
-
-private:
-    int m_health;
-};
 
 class AttackComponent
 {
@@ -61,9 +52,10 @@ private:
 enum DrawBoxLevel
 {
     NONE,
-    HITBOX,
+    HIT,
+    HURT,
     COLLISION,
-    BOTH
+    ALL
 };
 
 class Entity
@@ -72,18 +64,26 @@ public:
     Entity(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows);
 
     void update(float delta);
-    virtual void onBeforeUpdate(float delta) {};
-    virtual void onBeforeDraw() {};
     void draw();
-
     void setVelocity(int vel) { m_velocity = vel; };
     void setCollisionGroups(std::vector<std::string> groups) { m_collisionGroups = groups; }
-
-    Vector2 getPosition() { return m_position->getPosition(); }
-    void setDirection(Vector2 vec) { m_position->setDirection(vec); }
-
+    void setInteractionGroups(std::vector<std::string> groups) { m_interactionGroups = groups; }
+    virtual void onBeforeUpdate(float delta) {};
+    virtual void onBeforeDraw() {};
     std::string getGroup() { return m_group; }
 
+    void setHitboxSize(float width, float height) { m_hitbox->setRect(width, height); };
+    void setHurtboxSize(float width, float height) { m_hurtbox->setRect(width, height); };
+    void setCollisionBoxSize(float width, float height) { m_collisionBox->setRect(width, height); };
+
+    void setHurtboxCenter(bool center) { m_hurtbox->setCentered(center); }
+    void setHitboxCenter(bool center) { m_hitbox->setCentered(center); }
+    void setCollisionBoxCenter(bool center) { m_collisionBox->setCentered(center); }
+
+    void setDirection(Vector2 vec) { m_position->setDirection(vec); }
+    Vector2 getPosition() { return m_position->getPosition(); }
+
+    bool hasAnimations() { return m_animatedSprite != nullptr; };
     void playAnimation(std::string name)
     {
         if (hasAnimations())
@@ -106,12 +106,11 @@ public:
         }
     }
 
-    bool hasAnimations() { return m_animatedSprite != nullptr; };
-
 private:
     std::string m_group;
-    std::vector<std::string> m_collisionGroups;
-    DrawBoxLevel m_drawBoxLevels = DrawBoxLevel::BOTH;
+    std::vector<std::string> m_collisionGroups;   // This will manage if you collide with another object
+    std::vector<std::string> m_interactionGroups; // This will manage if you interact with another hitbox
+    DrawBoxLevel m_drawBoxLevels = DrawBoxLevel::ALL;
     int m_velocity = 100;
     /**AnimatedSprite
      *
@@ -126,13 +125,15 @@ private:
      *  */
     PositionComponent *m_position;
 
-    /**Hitbox
+    /**Hitbox and Hurtbox
      *
-     * This will handle if this entity got hit
+     * If a hitbox collides with a hurt box then the hurt box takes tamage
      *
      *
      * */
     HitboxComponent *m_hitbox;
+
+    HurtboxComponent *m_hurtbox;
     /**Health
      *
      * This will Handle the amount of hp and taking damage

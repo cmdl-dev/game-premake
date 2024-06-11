@@ -16,7 +16,9 @@ const int PADDING = 10;
 
 Player::Player(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows) : Entity{texture, initialPosition, group, animationCols, animationRows}
 {
-    setCollisionGroups(std::vector<std::string>{"dirt", "enemy"});
+    setCollisionGroups(std::vector<std::string>{"dirt"});
+    // TODO:
+    setInteractionGroups(std::vector<std::string>{"hit_hurt_enemy"});
     setVelocity(100);
 
     addAnimPosition(AnimationInfo{Vector2{0, 0}, 4, "idle_e"});
@@ -31,6 +33,14 @@ Player::Player(Texture2D texture, Vector2 initialPosition, std::string group, in
     setFrameSpeed(4);
 
     m_spellsArr.reserve(2000);
+    setHitboxCenter(true);
+    setCollisionBoxCenter(true);
+
+    setCollisionBoxSize(20, 20);
+
+    setHurtboxSize(60, 60);
+
+    setHitboxSize(40, 40);
 }
 
 void Player::fireSpell()

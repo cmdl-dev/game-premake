@@ -1,12 +1,12 @@
 
 #include <iostream>
 
-#include "CollisionBoxManager.h"
+#include "HitboxManager.h"
 
-CollisionBoxManager CollisionBoxManager::s_Instance;
-void CollisionBoxManager::impl_AddCollisionBox(std::string key, Hitbox *box)
+HitboxManager HitboxManager::s_Instance;
+void HitboxManager::impl_AddCollisionBox(std::string key, Hitbox *box)
 {
-    CollisionBoxManager &manager = CollisionBoxManager::GetInstance();
+    HitboxManager &manager = HitboxManager::GetInstance();
     bool has = manager.Has(key);
     if (!has)
     {
@@ -16,10 +16,10 @@ void CollisionBoxManager::impl_AddCollisionBox(std::string key, Hitbox *box)
     manager.m_CollisionBoxes[key].push_back(box);
 }
 
-std::vector<Hitbox *> CollisionBoxManager::impl_GetCollisionBoxesFor(std::vector<std::string> keys)
+std::vector<Hitbox *> HitboxManager::impl_GetCollisionBoxesFor(std::vector<std::string> keys)
 {
     std::vector<Hitbox *> boxes;
-    CollisionBoxManager &manager = CollisionBoxManager::GetInstance();
+    HitboxManager &manager = HitboxManager::GetInstance();
 
     for (auto key : keys)
     {
@@ -33,8 +33,8 @@ std::vector<Hitbox *> CollisionBoxManager::impl_GetCollisionBoxesFor(std::vector
     return boxes;
 }
 
-bool CollisionBoxManager::Has(std::string key)
+bool HitboxManager::Has(std::string key)
 {
-    CollisionBoxManager &manager = CollisionBoxManager::GetInstance();
+    HitboxManager &manager = HitboxManager::GetInstance();
     return manager.m_CollisionBoxes.find(key) != manager.m_CollisionBoxes.end();
 }

@@ -1,5 +1,5 @@
-#ifndef COLLISIONBOXMANAGER_H
-#define COLLISIONBOXMANAGER_H
+#ifndef HITBOXMANAGER_H
+#define HITBOXMANAGER_H
 
 #include <vector>
 #include <map>
@@ -8,23 +8,23 @@
 
 #include "entity/Hitbox.h"
 
-class CollisionBoxManager
+class HitboxManager
 {
 public:
-    CollisionBoxManager(const CollisionBoxManager &) = delete;
-    CollisionBoxManager &operator=(const CollisionBoxManager &) = delete;
+    HitboxManager(const HitboxManager &) = delete;
+    HitboxManager &operator=(const HitboxManager &) = delete;
 
-    static CollisionBoxManager &GetInstance()
+    static HitboxManager &GetInstance()
     {
-        return CollisionBoxManager::s_Instance;
+        return HitboxManager::s_Instance;
     }
 
     static void AddCollisionBox(std::string key, Hitbox *box) { return GetInstance().impl_AddCollisionBox(key, box); }
     static std::vector<Hitbox *> GetCollisionBoxesFor(std::vector<std::string> keys) { return GetInstance().impl_GetCollisionBoxesFor(keys); }
 
 private:
-    static CollisionBoxManager s_Instance;
-    CollisionBoxManager(){};
+    static HitboxManager s_Instance;
+    HitboxManager(){};
     bool Has(std::string);
 
     void impl_AddCollisionBox(std::string key, Hitbox *box);
