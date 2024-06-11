@@ -41,6 +41,7 @@ private:
     bool hasAnimation(std::string name) { return m_animationPosition.find(name) != m_animationPosition.end(); };
 
     void setCurrentFrame();
+    void createAnimationArray();
 
     Rectangle getRectangle(Vector2 pos);
     std::map<std::string, AnimationInfo> m_animationPosition;

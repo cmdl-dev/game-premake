@@ -52,17 +52,20 @@ void SpriteAnimation::play(std::string name)
     }
 
     AnimationInfo info = m_animationPosition[name];
-    // TODO: Move to a different location
     /** Create Path from info */
-    // m_frameRec = getRectangle(info.position);
-
-    m_shouldReset = true;
+    /************** */
     m_maxFrame = info.maxFrames;
+    m_currentAnimation = info;
+    createAnimationArray();
+}
+void SpriteAnimation::createAnimationArray()
+{
+    m_shouldReset = true;
 
-    int currentCol = info.position.x;
-    int currentRow = info.position.y;
+    int currentCol = m_currentAnimation.position.x;
+    int currentRow = m_currentAnimation.position.y;
     std::vector<Rectangle> rectArr;
-    for (int i = 0; i < info.maxFrames; ++i)
+    for (int i = 0; i < m_maxFrame; ++i)
     {
         float xStart = currentCol * m_widthOffset;
         float yStart = currentRow * m_heightOffset;
@@ -82,9 +85,6 @@ void SpriteAnimation::play(std::string name)
         }
     }
     m_animationPath = rectArr;
-    /************** */
-
-    m_currentAnimation = info;
 }
 
 void SpriteAnimation::move(Vector2 newPosition)
