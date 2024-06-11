@@ -2,16 +2,17 @@
 #define PLAYER_H
 
 #include "raylib.h"
-#include "CharacterObject.h"
+#include "entity/Entity.h"
 #include "Spell.h"
 #include "util/Types.h"
 #include <vector>
 
-class Player : public CharacterObject
+// Entity(Texture2D texture, Vector2 intialPosition, std::string group, int animationCols, int animationRows);
+
+class Player : public Entity
 {
 public:
-    Player(const char *filePath, Vector2 initialPosition, std::string group);
-    Player(const char *filePath, AnimatedSpriteInfo spriteInfo, std::string group);
+    Player(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows);
 
     void fireSpell();
 
@@ -25,8 +26,12 @@ private:
     bool onGDC();
     void getAnimationFromState();
     void getDirectionFromInput();
-    void beforeMoveAction(float delta) override;
-    void beforeDrawAction() override;
+
+    void onBeforeUpdate(float delta) override;
+    void onBeforeDraw() override;
+
+    // void beforeMoveAction(float delta) override;
+    // void beforeDrawAction() override;
 
     void checkForDeadSpells();
     void removeDeadSpell(int spellId);

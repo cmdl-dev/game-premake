@@ -4,28 +4,28 @@
 #include "CollisionBoxManager.h"
 
 CollisionBoxManager CollisionBoxManager::s_Instance;
-void CollisionBoxManager::impl_AddCollisionBox(std::string key, CollisionBox *box)
+void CollisionBoxManager::impl_AddCollisionBox(std::string key, Hitbox *box)
 {
     CollisionBoxManager &manager = CollisionBoxManager::GetInstance();
     bool has = manager.Has(key);
     if (!has)
     {
-        manager.m_CollisionBoxes[key] = std::vector<CollisionBox *>{box};
+        manager.m_CollisionBoxes[key] = std::vector<Hitbox *>{box};
         return;
     }
     manager.m_CollisionBoxes[key].push_back(box);
 }
 
-std::vector<CollisionBox *> CollisionBoxManager::impl_GetCollisionBoxesFor(std::vector<std::string> keys)
+std::vector<Hitbox *> CollisionBoxManager::impl_GetCollisionBoxesFor(std::vector<std::string> keys)
 {
-    std::vector<CollisionBox *> boxes;
+    std::vector<Hitbox *> boxes;
     CollisionBoxManager &manager = CollisionBoxManager::GetInstance();
 
     for (auto key : keys)
     {
         if (manager.Has(key))
         {
-            std::vector<CollisionBox *> keyBoxes = manager.m_CollisionBoxes[key];
+            std::vector<Hitbox *> keyBoxes = manager.m_CollisionBoxes[key];
             boxes.insert(boxes.end(), keyBoxes.begin(), keyBoxes.end());
         }
     }

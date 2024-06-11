@@ -2,8 +2,7 @@
 #define TILEOBJECT_H
 
 #include <string>
-#include "TextureManager.h"
-#include "CollisionBoxManager.h"
+#include "entity/CollisionComponent.h"
 
 class TileObject
 {
@@ -17,6 +16,6 @@ private:
     std::string m_group;
     Texture2D m_texture;
     Rectangle m_rect;
-    CollisionBox *m_collisionBox;
+    CollisionComponent *m_collisionBox;
 };
 #endif

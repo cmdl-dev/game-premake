@@ -132,6 +132,9 @@ GENERATED += $(OBJDIR)/Enemy.o
 GENERATED += $(OBJDIR)/SpriteAnimation.o
 GENERATED += $(OBJDIR)/Spell.o
 GENERATED += $(OBJDIR)/VectorUtil.o
+GENERATED += $(OBJDIR)/Util.o
+GENERATED += $(OBJDIR)/Entity.o
+
 
 # GENERATED += $(OBJDIR)/screen_ending.o
 # GENERATED += $(OBJDIR)/screen_gameplay.o
@@ -151,6 +154,8 @@ OBJECTS += $(OBJDIR)/Enemy.o
 OBJECTS += $(OBJDIR)/SpriteAnimation.o
 OBJECTS += $(OBJDIR)/Spell.o
 OBJECTS += $(OBJDIR)/VectorUtil.o
+OBJECTS += $(OBJDIR)/Util.o
+OBJECTS += $(OBJDIR)/Entity.o
 # OBJECTS += $(OBJDIR)/screen_ending.o
 # OBJECTS += $(OBJDIR)/screen_gameplay.o
 # OBJECTS += $(OBJDIR)/screen_logo.o
@@ -256,6 +261,12 @@ $(OBJDIR)/Spell.o: src/Spell.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/VectorUtil.o: src/util/VectorUtil.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Util.o: src/util/Util.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Entity.o: src/entity/Entity.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

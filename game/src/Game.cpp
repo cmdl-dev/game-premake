@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Player *player;
-Enemy *enemy;
+// Enemy *enemy;
 Tileset *map;
 Vector2 pos = Vector2{0, 0};
 
@@ -13,9 +13,10 @@ Game::Game(int width, int height, std::string title)
 
     InitWindow(width, height, title.c_str());
     SetTraceLogLevel(LOG_ERROR);
-    player = new Player("game/assets/player/Heavy_Knight_Non-Combat_Animations.png", AnimatedSpriteInfo{4, 31, Vector2{32, 32}}, "player");
-
-    enemy = new Enemy("game/assets/player/HealingTexture.png", Vector2{200, 200}, "enemy");
+    Texture2D playerTextures = TextureManager::LoadTextureFromFile("game/assets/player/Heavy_Knight_Non-Combat_Animations.png", 3.0);
+    // Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows
+    player = new Player(playerTextures, Vector2{100, 100}, "player", 4, 31);
+    // enemy = new Enemy("game/assets/player/HealingTexture.png", Vector2{200, 200}, "enemy");
 
     map = new Tileset();
 
@@ -34,7 +35,8 @@ void Game::tick(float delta)
 }
 void Game::update(float delta)
 {
-    player->move(delta);
+    player->update(delta);
+    // player->move(delta);
 }
 // 1st
 void Game::handleEvents()
@@ -49,7 +51,7 @@ void Game::draw()
     map->draw();
 
     player->draw();
-    enemy->draw();
+    // enemy->draw();
 
     {
         rlImGuiBegin();

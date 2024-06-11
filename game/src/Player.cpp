@@ -6,17 +6,17 @@
 
 // TODO: Handle SCALE
 const int PADDING = 10;
-Player::Player(const char *filePath, Vector2 initialPosition, std::string group) : CharacterObject{filePath, initialPosition, group}
-{
-    setCollisionGroup(std::vector<std::string>{"enemy", "dirt"});
-    setVelocity(50);
+// Player::Player(const char *filePath, Vector2 initialPosition, std::string group) : CharacterObject{filePath, initialPosition, group}
+// {
+//     setCollisionGroup(std::vector<std::string>{"enemy", "dirt"});
+//     setVelocity(50);
 
-    m_spellsArr.reserve(2000);
-}
+//     m_spellsArr.reserve(2000);
+// }
 
-Player::Player(const char *filePath, AnimatedSpriteInfo spriteInfo, std::string group) : CharacterObject{filePath, spriteInfo, group}
+Player::Player(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows) : Entity{texture, initialPosition, group, animationCols, animationRows}
 {
-    setCollisionGroup(std::vector<std::string>{"enemy", "dirt"});
+    setCollisionGroups(std::vector<std::string>{"dirt", "enemy"});
     setVelocity(100);
 
     addAnimPosition(AnimationInfo{Vector2{0, 0}, 4, "idle_e"});
@@ -131,7 +131,7 @@ void Player::getDirectionFromInput()
     setDirection(newDir);
 }
 
-void Player::beforeMoveAction(float delta)
+void Player::onBeforeUpdate(float delta)
 {
     getDirectionFromInput();
     getAnimationFromState();
@@ -154,7 +154,7 @@ void Player::beforeMoveAction(float delta)
     moveSpells(delta);
 }
 
-void Player::beforeDrawAction()
+void Player::onBeforeDraw()
 {
     drawSpells();
 }

@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
-Enemy::Enemy(const char *filePath, Vector2 initialPosition, std::string group) : CharacterObject{filePath, initialPosition, group}
+Enemy::Enemy(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows) : Entity{texture, initialPosition, group, animationCols, animationRows}
 {
-    setCollisionGroup(std::vector<std::string>{"player", "dirt"});
+    setCollisionGroups(std::vector<std::string>{"player", "dirt"});
     setVelocity(100);
 }

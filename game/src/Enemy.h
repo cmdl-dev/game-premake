@@ -3,14 +3,12 @@
 #ifndef ENEMEY_H
 #define ENEMEY_H
 
-#include "CharacterObject.h"
+#include "entity/Entity.h"
 
-class Enemy : public CharacterObject
+class Enemy : public Entity
 {
 public:
-    Enemy(const char *filePath, Vector2 initialPosition, std::string group);
-
-    std::string m_group = "enemy";
+    Enemy(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows);
 };
 
 #endif

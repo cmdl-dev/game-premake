@@ -6,7 +6,7 @@
 #ifndef CHARACTEROBJECT_H
 #define CHARACTEROBJECT_H
 
-#include "CollisionBoxManager.h"
+#include "entity/CollisionComponent.h"
 #include "TextureManager.h"
 #include "SpriteAnimation.h"
 
@@ -61,7 +61,7 @@ private:
 
     Texture2D m_texture;
 
-    CollisionBox *m_collisionBox;
+    CollisionComponent *m_collisionBox;
     SpriteAnimation *m_animatedSprite = nullptr;
 
     std::vector<std::string> m_collisionGroup;
