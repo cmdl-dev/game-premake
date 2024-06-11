@@ -17,10 +17,12 @@ public:
     void fire();
     void removeSpell();
     int getSpellId();
+    bool isGCD() { return m_GCD > 0; }
 
     bool isDead();
 
 private:
+    int m_GCD = 100;
     int m_spellId = -1;
     int m_velocity = 300;
     int m_maxLife = 5 * 60;

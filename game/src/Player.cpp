@@ -1,6 +1,9 @@
 #include "Player.h"
+#include "util/VectorUtil.h"
 
+#include <format>
 #include <iostream>
+
 // TODO: Handle SCALE
 const int PADDING = 10;
 Player::Player(const char *filePath, Vector2 initialPosition, std::string group) : CharacterObject{filePath, initialPosition, group}
@@ -16,7 +19,11 @@ Player::Player(const char *filePath, AnimatedSpriteInfo spriteInfo, std::string 
     setCollisionGroup(std::vector<std::string>{"enemy", "dirt"});
     setVelocity(100);
 
-    addAnimPosition(AnimationInfo{Vector2{0, 0}, 4, "idle"});
+    addAnimPosition(AnimationInfo{Vector2{0, 0}, 4, "idle_e"});
+    addAnimPosition(AnimationInfo{Vector2{0, 1}, 4, "idle_w"});
+    addAnimPosition(AnimationInfo{Vector2{0, 2}, 4, "idle_s"});
+    addAnimPosition(AnimationInfo{Vector2{0, 3}, 4, "idle_n"});
+
     addAnimPosition(AnimationInfo{Vector2{0, 4}, 4, "walk_e"});
     addAnimPosition(AnimationInfo{Vector2{0, 5}, 4, "walk_w"});
     addAnimPosition(AnimationInfo{Vector2{0, 6}, 4, "walk_s"});
@@ -34,8 +41,66 @@ void Player::fireSpell()
     m_spellsArr.push_back(new Spell("game/assets/textures/lightningBallEffect.png", AnimatedSpriteInfo{16, 1, getPosition()}, getSpellArraySize()));
 }
 
+void Player::getAnimationFromState()
+{
+    if (m_state == PlayerState::IDLE)
+    {
+        switch (m_direction)
+        {
+        case PlayerDirection::NORTH:
+            playAnimation("idle_n");
+            /* code */
+            break;
+
+        case PlayerDirection::EAST:
+            playAnimation("idle_e");
+            /* code */
+            break;
+        case PlayerDirection::SOUTH:
+            playAnimation("idle_s");
+            /* code */
+            break;
+        case PlayerDirection::WEST:
+            /* code */
+            playAnimation("idle_w");
+            break;
+        default:
+            playAnimation("idle_e");
+            break;
+        }
+    }
+    if (m_state == PlayerState::MOVING)
+    {
+
+        switch (m_direction)
+        {
+        case PlayerDirection::NORTH:
+            playAnimation("walk_n");
+            /* code */
+            break;
+
+        case PlayerDirection::EAST:
+            playAnimation("walk_e");
+            /* code */
+            break;
+        case PlayerDirection::SOUTH:
+            playAnimation("walk_s");
+            /* code */
+            break;
+        case PlayerDirection::WEST:
+            /* code */
+            playAnimation("walk_w");
+            break;
+        default:
+            playAnimation("idle_e");
+            break;
+        }
+    }
+}
+
 void Player::getDirectionFromInput()
 {
+    m_state = PlayerState::IDLE;
     Vector2 newDir = Vector2{0, 0};
     if (IsKeyDown(KEY_U))
         newDir.x += 1;
@@ -46,33 +111,46 @@ void Player::getDirectionFromInput()
     if (IsKeyDown(KEY_PERIOD))
         newDir.y += -1;
 
+    if (!VectorUtil::VectorEqual(newDir, Vector2{0, 0}))
+    {
+        m_state = PlayerState::MOVING;
+    }
+
+    if (VectorUtil::VectorEqual(newDir, Vector2{0, -1}))
+        m_direction = PlayerDirection::NORTH;
+
+    if (VectorUtil::VectorEqual(newDir, Vector2{1, 0}))
+        m_direction = PlayerDirection::EAST;
+
+    if (VectorUtil::VectorEqual(newDir, Vector2{0, 1}))
+        m_direction = PlayerDirection::SOUTH;
+
+    if (VectorUtil::VectorEqual(newDir, Vector2{-1, 0}))
+        m_direction = PlayerDirection::WEST;
+
     setDirection(newDir);
 }
 
 void Player::beforeMoveAction(float delta)
 {
     getDirectionFromInput();
+    getAnimationFromState();
 
-    Vector2 dir = getDirection();
-
-    if (dir.x == 1)
-        playAnimation("walk_e");
-    if (dir.x == -1)
-        playAnimation("walk_w");
-    if (dir.y == -1)
-        playAnimation("walk_n");
-    if (dir.y == 1)
-        playAnimation("walk_s");
-
-    if (dir.x == 0 && dir.y == 0)
-        playAnimation("idle");
-
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+    // REFACTOR THIS
+    bool t = onGDC();
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !t)
     {
-        checkForDeadSpells();
 
+        m_state = PlayerState::ATTACKING;
+    }
+
+    if (m_state == PlayerState::ATTACKING)
+    {
+        m_state == PlayerState::IDLE;
+        checkForDeadSpells();
         fireSpell();
     }
+
     moveSpells(delta);
 }
 
@@ -104,6 +182,16 @@ void Player::removeDeadSpell(int spellId)
             m_spellsArr.erase(m_spellsArr.begin() + i);
         }
     }
+}
+bool Player::onGDC()
+{
+    for (int i = 0; i < getSpellArraySize(); i++)
+    {
+        Spell *spell = m_spellsArr[i];
+        if (spell->isGCD())
+            return true;
+    }
+    return false;
 }
 
 void Player::moveSpells(float delta)

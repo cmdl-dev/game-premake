@@ -29,6 +29,7 @@ void Spell::move(float delta)
     m_position.y += (m_velocity * delta) * m_direction.y;
 
     m_animatedSprite->move(m_position);
+    m_GCD--;
     m_life++;
 }
 
