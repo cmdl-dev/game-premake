@@ -1,6 +1,6 @@
 #include "Spell.h"
 
-Spell::Spell(const char *fileName, AnimatedSpriteInfo spriteInfo, int spellId)
+Spell::Spell(const char *fileName, AnimatedSpriteInfo spriteInfo, PlayerDirection direction, int spellId)
 {
     // Texture2D texture, AnimatedSpriteInfo spriteInfo
     Texture2D texture = TextureManager::LoadTextureFromFile(fileName);
@@ -13,6 +13,27 @@ Spell::Spell(const char *fileName, AnimatedSpriteInfo spriteInfo, int spellId)
     m_animatedSprite->addAnimationPositions(AnimationInfo{Vector2{4, 0}, 4, "active"});
     m_animatedSprite->setFrameSpeed(8);
     m_animatedSprite->play("active");
+
+    switch (direction)
+    {
+    case PlayerDirection::NORTH:
+
+        m_direction = Vector2{0, -1};
+        break;
+
+    case PlayerDirection::EAST:
+        m_direction = Vector2{1, 0};
+        break;
+    case PlayerDirection::SOUTH:
+        m_direction = Vector2{0, 1};
+        break;
+    case PlayerDirection::WEST:
+        m_direction = Vector2{-1, 0};
+        break;
+    default:
+        m_direction = Vector2{1, 0};
+        break;
+    }
 }
 
 void Spell::move(float delta)
@@ -36,7 +57,8 @@ void Spell::move(float delta)
 void Spell::update()
 {
     // TODO: change
-    m_direction = Vector2{1, 0};
+
+    // m_direction = Vector2{1, 0};
 }
 
 void Spell::draw()

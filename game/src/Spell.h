@@ -2,13 +2,13 @@
 #define SPELL_H
 
 #include "SpriteAnimation.h"
+#include "util/Types.h"
 #include "TextureManager.h"
-
 class Spell
 {
 
 public:
-    Spell(const char *fileName, AnimatedSpriteInfo spriteInfo, int spellId);
+    Spell(const char *fileName, AnimatedSpriteInfo spriteInfo, PlayerDirection direction, int spellId);
     ~Spell() = default;
 
     void move(float delta);

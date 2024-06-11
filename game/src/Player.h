@@ -4,21 +4,9 @@
 #include "raylib.h"
 #include "CharacterObject.h"
 #include "Spell.h"
+#include "util/Types.h"
 #include <vector>
 
-enum PlayerDirection
-{
-    EAST,
-    NORTH,
-    SOUTH,
-    WEST
-};
-enum PlayerState
-{
-    IDLE,
-    MOVING,
-    ATTACKING
-};
 class Player : public CharacterObject
 {
 public:

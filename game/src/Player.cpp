@@ -38,7 +38,7 @@ void Player::fireSpell()
     if (getSpellArraySize() >= 100)
         return;
 
-    m_spellsArr.push_back(new Spell("game/assets/textures/lightningBallEffect.png", AnimatedSpriteInfo{16, 1, getPosition()}, getSpellArraySize()));
+    m_spellsArr.push_back(new Spell("game/assets/textures/lightningBallEffect.png", AnimatedSpriteInfo{16, 1, getPosition()}, m_direction, getSpellArraySize()));
 }
 
 void Player::getAnimationFromState()
