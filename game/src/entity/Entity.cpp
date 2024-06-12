@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "EntityManager.h"
 
 Entity::Entity(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows)
 {
@@ -18,7 +19,7 @@ Entity::Entity(Texture2D texture, Vector2 initialPosition, std::string group, in
     m_health = new HealthComponent(100);
 
     HitboxManager::AddCollisionBox(group, m_collisionBox);
-    HitboxManager::AddCollisionBox("hit_hurt_" + group, m_hitbox);
+    EntityManager::AddEntities(group, this);
 }
 
 void Entity::update(float delta)
@@ -28,14 +29,15 @@ void Entity::update(float delta)
     Vector2 calulatedVector = m_position->update(delta, m_velocity);
     Vector2 adjustedVector = Util::GetAdjustedVectorFromCollision(m_collisionBox, m_collisionGroups, calulatedVector);
 
-    std::vector<Hitbox *> boxes = HitboxManager::GetCollisionBoxesFor(m_interactionGroups);
-    for (Hitbox *hitbox : boxes)
+    // TODO: Refactor to have this be an array of entities with different functions for each types
+    std::vector<Entity *> entities = EntityManager::GetEntitiesFor(m_interactionGroups);
+    for (Entity *ent : entities)
     {
-        if (m_hurtbox->didCollideWith(hitbox->getRect()) && !m_tookHitFrom[hitbox->m_parentId])
+        if (m_hurtbox->didCollideWith(ent->m_hitbox->getRect()) && !m_tookHitFrom[ent->getId()])
         {
-            m_hurtbox->onCollision(m_health, m_attack->getDamage());
+            m_hurtbox->onCollision(ent->m_health, m_attack->getDamage());
         }
-        m_tookHitFrom[hitbox->m_parentId] = m_hurtbox->didCollideWith(hitbox->getRect());
+        m_tookHitFrom[ent->getId()] = m_hurtbox->didCollideWith(ent->m_hitbox->getRect());
     }
 
     m_position->move(adjustedVector);

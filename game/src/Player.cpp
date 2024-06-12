@@ -6,18 +6,11 @@
 
 // TODO: Handle SCALE
 const int PADDING = 10;
-// Player::Player(const char *filePath, Vector2 initialPosition, std::string group) : CharacterObject{filePath, initialPosition, group}
-// {
-//     setCollisionGroup(std::vector<std::string>{"enemy", "dirt"});
-//     setVelocity(50);
-
-//     m_spellsArr.reserve(2000);
-// }
 
 Player::Player(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows) : Entity{texture, initialPosition, group, animationCols, animationRows}
 {
     setCollisionGroups(std::vector<std::string>{"dirt"});
-    setInteractionGroups(std::vector<std::string>{"enemy"});
+    // setInteractionGroups(std::vector<std::string>{"enemy"});
 
     setVelocity(100);
 
@@ -47,7 +40,7 @@ void Player::fireSpell()
     if (getSpellArraySize() >= 100)
         return;
 
-    m_spellsArr.push_back(new Spell("game/assets/textures/lightningBallEffect.png", AnimatedSpriteInfo{16, 1, getPosition()}, m_direction, getSpellArraySize()));
+    m_spellsArr.push_back(new Spell(TextureManager::LoadTextureFromFile("game/assets/textures/lightningBallEffect.png"), getPosition(), "spells", 16, 1, m_direction, getSpellArraySize()));
 }
 
 void Player::getAnimationFromState()
@@ -209,8 +202,7 @@ void Player::moveSpells(float delta)
         Spell *spell = m_spellsArr[i];
         if (!spell->isDead())
         {
-            spell->update();
-            spell->move(delta);
+            spell->update(delta);
         }
     }
 }

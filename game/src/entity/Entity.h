@@ -18,6 +18,7 @@ class AttackComponent
 {
 public:
     AttackComponent(int attack) { m_damage = attack; };
+    void setDamage(int dmg) { m_damage = dmg; }
     int getDamage() { return m_damage; };
 
 private:
@@ -64,22 +65,19 @@ class Entity
 public:
     Entity(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows);
 
+    uint32_t getId() { return m_id; };
     void update(float delta);
     void draw();
     void setVelocity(int vel) { m_velocity = vel; };
     void setCollisionGroups(std::vector<std::string> groups) { m_collisionGroups = groups; }
-    void setInteractionGroups(std::vector<std::string> groups)
-    {
-        std::vector<std::string> arr;
-        for (int i = 0; i < groups.size(); i++)
-        {
-            arr.push_back("hit_hurt_" + groups[i]);
-        }
-        m_interactionGroups = arr;
-    }
+    /// @brief Interaction groups are the groups that you want to do damage to i.e interact with
+    /// @param groups The gorup that you want to interact with
+    void setInteractionGroups(std::vector<std::string> groups) { m_interactionGroups = groups; }
     virtual void onBeforeUpdate(float delta) {};
     virtual void onBeforeDraw() {};
     std::string getGroup() { return m_group; }
+
+    void setAttack(int dmg) { m_attack->setDamage(dmg); }
 
     void setHitboxSize(float width, float height) { m_hitbox->setRect(width, height); };
     void setHurtboxSize(float width, float height) { m_hurtbox->setRect(width, height); };
