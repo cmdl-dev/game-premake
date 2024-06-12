@@ -8,7 +8,7 @@
 class HitboxComponent : public Hitbox
 {
 public:
-    HitboxComponent(Rectangle initialPosition, Size parentSize, Color color = (Color){0, 121, 241, 150}) : Hitbox{initialPosition, parentSize, color}
+    HitboxComponent(Rectangle initialPosition, Size parentSize, uint32_t parentId, Color color = (Color){0, 121, 241, 150}) : Hitbox{initialPosition, parentSize, parentId, color}
     {
         m_type = HitboxType::HITBOX;
     };

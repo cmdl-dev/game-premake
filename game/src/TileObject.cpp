@@ -1,12 +1,13 @@
 #include "TileObject.h"
 #include "HitboxManager.h"
 #include "TextureManager.h"
+#include "util/Util.h"
 
 TileObject::TileObject(std::string fileName, Rectangle rect, std::string group)
 {
     m_texture = TextureManager::LoadTextureFromFile(fileName.c_str());
     m_rect = rect;
-    m_collisionBox = new CollisionComponent(m_rect, Size{(float)m_texture.width, (float)m_texture.height + 10});
+    m_collisionBox = new CollisionComponent(m_rect, Size{(float)m_texture.width, (float)m_texture.height + 10}, Util::UniqueId::getUniqueId());
     m_group = group;
 
     HitboxManager::AddCollisionBox(m_group, m_collisionBox);

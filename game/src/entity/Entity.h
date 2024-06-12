@@ -2,6 +2,7 @@
 
 #ifndef ENTITY_H
 #define ENTITY_H
+#include <cstdint>
 
 #include "raylib.h"
 #include "SpriteAnimation.h"
@@ -115,6 +116,9 @@ public:
     }
 
 private:
+    uint32_t m_id;
+
+    std::map<uint32_t, bool> m_tookHitFrom;
     std::string m_group;
     std::vector<std::string> m_collisionGroups;   // This will manage if you collide with another object
     std::vector<std::string> m_interactionGroups; // This will manage if you interact with another hitbox

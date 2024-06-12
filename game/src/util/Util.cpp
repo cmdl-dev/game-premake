@@ -1,4 +1,5 @@
 #include "Util.h"
+#include <atomic>
 
 Vector2 Util::GetAdjustedVectorFromCollision(Hitbox *collisionBox, std::vector<std::string> groups, Vector2 calculatedVector)
 {
@@ -43,4 +44,10 @@ Vector2 Util::GetAdjustedVectorFromCollision(Hitbox *collisionBox, std::vector<s
         }
     }
     return calculatedVector;
+}
+
+int Util::UniqueId::getUniqueId()
+{
+    static std::atomic<uint32_t> uid{0};
+    return ++uid;
 }

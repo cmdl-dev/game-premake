@@ -2,14 +2,16 @@
 
 Entity::Entity(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows)
 {
+    m_id = Util::UniqueId::getUniqueId();
+
     m_group = group;
     Rectangle playerRect = Rectangle{initialPosition.x, initialPosition.y, texture.width / animationCols, texture.height / animationRows};
 
     m_animatedSprite = new SpriteAnimation(texture, AnimatedSpriteInfo{animationCols, animationRows, initialPosition});
 
-    m_hitbox = new HitboxComponent(playerRect, Size{playerRect.width, playerRect.height});
-    m_hurtbox = new HurtboxComponent(playerRect, Size{playerRect.width, playerRect.height});
-    m_collisionBox = new CollisionComponent(playerRect, Size{playerRect.width, playerRect.height});
+    m_hitbox = new HitboxComponent(playerRect, Size{playerRect.width, playerRect.height}, m_id);
+    m_hurtbox = new HurtboxComponent(playerRect, Size{playerRect.width, playerRect.height}, m_id);
+    m_collisionBox = new CollisionComponent(playerRect, Size{playerRect.width, playerRect.height}, m_id);
 
     m_position = new PositionComponent(initialPosition);
     m_attack = new AttackComponent(10);
@@ -29,10 +31,11 @@ void Entity::update(float delta)
     std::vector<Hitbox *> boxes = HitboxManager::GetCollisionBoxesFor(m_interactionGroups);
     for (Hitbox *hitbox : boxes)
     {
-        if (m_hurtbox->didCollideWith(hitbox->getRect()))
+        if (m_hurtbox->didCollideWith(hitbox->getRect()) && !m_tookHitFrom[hitbox->m_parentId])
         {
             m_hurtbox->onCollision(m_health, m_attack->getDamage());
         }
+        m_tookHitFrom[hitbox->m_parentId] = m_hurtbox->didCollideWith(hitbox->getRect());
     }
 
     m_position->move(adjustedVector);

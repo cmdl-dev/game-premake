@@ -3,6 +3,7 @@
 #define HITBOX_H
 
 #include "raylib.h"
+#include <cstdint>
 #include "HealthComponent.h"
 
 struct Size
@@ -22,15 +23,17 @@ class Hitbox
 {
 public:
     Color m_boxColor;
+    uint32_t m_parentId;
 
     Rectangle getRect() { return m_rect; }
     void setCentered(bool center) { m_centered = center; }
 
-    Hitbox(Rectangle initialPosition, Size parentSize, Color color = RED)
+    Hitbox(Rectangle initialPosition, Size parentSize, uint32_t parentId, Color color = RED)
     {
         m_rect = initialPosition;
         m_boxColor = color;
         m_parentSize = parentSize;
+        m_parentId = parentId;
     };
 
     virtual bool didCollideWith(Rectangle hitbox)
