@@ -67,7 +67,15 @@ public:
     void draw();
     void setVelocity(int vel) { m_velocity = vel; };
     void setCollisionGroups(std::vector<std::string> groups) { m_collisionGroups = groups; }
-    void setInteractionGroups(std::vector<std::string> groups) { m_interactionGroups = groups; }
+    void setInteractionGroups(std::vector<std::string> groups)
+    {
+        std::vector<std::string> arr;
+        for (int i = 0; i < groups.size(); i++)
+        {
+            arr.push_back("hit_hurt_" + groups[i]);
+        }
+        m_interactionGroups = arr;
+    }
     virtual void onBeforeUpdate(float delta) {};
     virtual void onBeforeDraw() {};
     std::string getGroup() { return m_group; }

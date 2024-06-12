@@ -2,18 +2,19 @@
 
 Entity::Entity(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows)
 {
+    m_group = group;
     Rectangle playerRect = Rectangle{initialPosition.x, initialPosition.y, texture.width / animationCols, texture.height / animationRows};
 
     m_animatedSprite = new SpriteAnimation(texture, AnimatedSpriteInfo{animationCols, animationRows, initialPosition});
-    m_position = new PositionComponent(initialPosition);
+
     m_hitbox = new HitboxComponent(playerRect, Size{playerRect.width, playerRect.height});
     m_hurtbox = new HurtboxComponent(playerRect, Size{playerRect.width, playerRect.height});
     m_collisionBox = new CollisionComponent(playerRect, Size{playerRect.width, playerRect.height});
-    m_attack = new AttackComponent(10);
 
+    m_position = new PositionComponent(initialPosition);
+    m_attack = new AttackComponent(10);
     m_health = new HealthComponent(100);
 
-    m_group = group;
     HitboxManager::AddCollisionBox(group, m_collisionBox);
     HitboxManager::AddCollisionBox("hit_hurt_" + group, m_hitbox);
 }
