@@ -133,6 +133,7 @@ GENERATED += $(OBJDIR)/VectorUtil.o
 GENERATED += $(OBJDIR)/Util.o
 GENERATED += $(OBJDIR)/Entity.o
 GENERATED += $(OBJDIR)/EntityManager.o
+GENERATED += $(OBJDIR)/DebugMenu.o
 
 
 # GENERATED += $(OBJDIR)/screen_ending.o
@@ -154,6 +155,7 @@ OBJECTS += $(OBJDIR)/VectorUtil.o
 OBJECTS += $(OBJDIR)/Util.o
 OBJECTS += $(OBJDIR)/Entity.o
 OBJECTS += $(OBJDIR)/EntityManager.o
+OBJECTS += $(OBJDIR)/DebugMenu.o
 # OBJECTS += $(OBJDIR)/screen_ending.o
 # OBJECTS += $(OBJDIR)/screen_gameplay.o
 # OBJECTS += $(OBJDIR)/screen_logo.o
@@ -264,7 +266,9 @@ $(OBJDIR)/Entity.o: src/entity/Entity.cpp
 $(OBJDIR)/EntityManager.o: src/EntityManager.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-
+$(OBJDIR)/DebugMenu.o: src/DebugMenu.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 -include $(OBJECTS:%.o=%.d)
 ifneq (,$(PCH))
   -include $(PCH_PLACEHOLDER).d
