@@ -22,9 +22,8 @@ public:
     int getSpellId();
 
 private:
-    int m_GCD = 100;
+    int m_GCD = 30;
     int m_spellId = -1;
-    int m_velocity = 300;
     int m_maxLife = 5 * 60;
     int m_life = 0;
     SpriteAnimation *m_animatedSprite = nullptr;

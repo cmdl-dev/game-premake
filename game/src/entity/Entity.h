@@ -1,5 +1,3 @@
-
-
 #ifndef ENTITY_H
 #define ENTITY_H
 #include <cstdint>
@@ -112,6 +110,7 @@ public:
             m_animatedSprite->setFrameSpeed(speed);
         }
     }
+    SpriteAnimation *m_animatedSprite = nullptr;
 
 private:
     uint32_t m_id;
@@ -120,14 +119,13 @@ private:
     std::string m_group;
     std::vector<std::string> m_collisionGroups;   // This will manage if you collide with another object
     std::vector<std::string> m_interactionGroups; // This will manage if you interact with another hitbox
-    DrawBoxLevel m_drawBoxLevels = DrawBoxLevel::ALL;
+    DrawBoxLevel m_drawBoxLevels = DrawBoxLevel::NONE;
     int m_velocity = 100;
     /**AnimatedSprite
      *
      * This will handle the current position of the sprite
      *
      *  */
-    SpriteAnimation *m_animatedSprite = nullptr;
     /**Position
      *
      * This will handle the current position of the sprite

@@ -11,6 +11,7 @@ Spell::Spell(Texture2D texture, Vector2 initialPosition, std::string group, int 
 
     // m_position = spriteInfo.pos;
 
+    setVelocity(300);
     setAttack(50);
     addAnimPosition(AnimationInfo{Vector2{4, 0}, 4, "active"});
     setFrameSpeed(8);
@@ -40,7 +41,7 @@ void Spell::onBeforeUpdate(float delta)
 {
     if (isDead())
     {
-        m_velocity = 0;
+        setVelocity(0);
         return;
     }
 
