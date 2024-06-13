@@ -17,12 +17,12 @@ SpriteAnimation::SpriteAnimation(Texture2D texture, AnimatedSpriteInfo spriteInf
     m_animCols = spriteInfo.animCols;
     m_animRows = spriteInfo.animRows;
 
-    m_widthOffset = m_texture.width / spriteInfo.animCols;
-    m_heightOffset = m_texture.height / spriteInfo.animRows;
+    // TODO: Ability to resize
+    m_widthOffset = m_texture.width / m_animCols;
+    m_heightOffset = m_texture.height / m_animRows;
 
     m_animWidth = m_texture.width / m_animCols;
     m_animHeight = m_texture.height / m_animRows;
-
     m_frameRec = getRectangle(Vector2{0, 0});
 
     m_position = spriteInfo.pos;
@@ -31,6 +31,7 @@ SpriteAnimation::SpriteAnimation(Texture2D texture, AnimatedSpriteInfo spriteInf
 void SpriteAnimation::draw()
 {
     setCurrentFrame();
+
     DrawTextureRec(m_texture, m_frameRec, m_position, WHITE);
 }
 
@@ -90,6 +91,11 @@ void SpriteAnimation::createAnimationArray()
 void SpriteAnimation::move(Vector2 newPosition)
 {
     m_position = newPosition;
+}
+
+void SpriteAnimation::resize(float scale)
+{
+    // DrawTextureRec(m_texture, m_frameRec, m_position, WHITE);
 }
 
 void SpriteAnimation::addAnimationPositions(AnimationInfo info)

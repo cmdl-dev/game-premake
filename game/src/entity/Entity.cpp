@@ -127,6 +127,19 @@ void Entity::draw()
                     m_collisionBox->setRect(collisionBoxSize_w, collisionBoxSize_h);
                     ImGui::TreePop();
                 }
+                if (ImGui::TreeNode("Animation"))
+                {
+                    ImGui::SeparatorText("Resize WOP");
+                    float textureScale = m_animatedSprite->m_scale;
+                    ImGui::DragFloat("Scale", &textureScale, 0.1f, 1, 5);
+                    m_animatedSprite->resize(textureScale);
+
+                    int animationSpeed = m_animatedSprite->getFrameSpeed();
+
+                    ImGui::DragInt("Anmation Speed", &animationSpeed, 1, 1, 20);
+                    m_animatedSprite->setFrameSpeed(animationSpeed);
+                    ImGui::TreePop();
+                }
             }
         }
     }

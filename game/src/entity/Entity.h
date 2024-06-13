@@ -77,7 +77,6 @@ public:
 
     void setAttack(int dmg) { m_attack->setDamage(dmg); }
 
-    void setSize(int size) { m_animatedSprite->setSize(size); }
     void setHitboxSize(float width, float height) { m_hitbox->setRect(width, height); };
     void setHurtboxSize(float width, float height) { m_hurtbox->setRect(width, height); };
     void setCollisionBoxSize(float width, float height) { m_collisionBox->setRect(width, height); };

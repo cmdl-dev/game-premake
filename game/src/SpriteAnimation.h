@@ -31,16 +31,14 @@ public:
     void draw();
     void play(std::string name);
     void move(Vector2 newPosition);
-    void setSize(int size)
-    {
-        m_texture.height = size;
-        m_texture.width = size;
-    }
+    void resize(float scale);
 
     void addAnimationPositions(AnimationInfo info);
     void setFrameSpeed(int speed) { m_frameSpeed = speed; };
+    int getFrameSpeed() { return m_frameSpeed; };
 
     Texture2D m_texture;
+    float m_scale = 1.0f;
 
 private:
     bool hasAnimation(std::string name) { return m_animationPosition.find(name) != m_animationPosition.end(); };
