@@ -77,6 +77,7 @@ public:
 
     void setAttack(int dmg) { m_attack->setDamage(dmg); }
 
+    void setSize(int size) { m_animatedSprite->setSize(size); }
     void setHitboxSize(float width, float height) { m_hitbox->setRect(width, height); };
     void setHurtboxSize(float width, float height) { m_hurtbox->setRect(width, height); };
     void setCollisionBoxSize(float width, float height) { m_collisionBox->setRect(width, height); };
@@ -110,7 +111,6 @@ public:
             m_animatedSprite->setFrameSpeed(speed);
         }
     }
-    SpriteAnimation *m_animatedSprite = nullptr;
 
 private:
     uint32_t m_id;
@@ -126,6 +126,7 @@ private:
      * This will handle the current position of the sprite
      *
      *  */
+    SpriteAnimation *m_animatedSprite = nullptr;
     /**Position
      *
      * This will handle the current position of the sprite

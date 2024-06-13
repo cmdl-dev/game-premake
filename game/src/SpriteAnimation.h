@@ -31,6 +31,11 @@ public:
     void draw();
     void play(std::string name);
     void move(Vector2 newPosition);
+    void setSize(int size)
+    {
+        m_texture.height = size;
+        m_texture.width = size;
+    }
 
     void addAnimationPositions(AnimationInfo info);
     void setFrameSpeed(int speed) { m_frameSpeed = speed; };

@@ -80,9 +80,9 @@ private:
     void drawLines()
     {
         Color outlineColor = m_boxColor;
-        outlineColor.r = 255;
-        DrawRectangleLines(m_rect.x, m_rect.y, m_rect.height, m_rect.width, outlineColor);
-        DrawRectangle(m_rect.x, m_rect.y, m_rect.height, m_rect.width, m_boxColor);
+        outlineColor.a = 255;
+        DrawRectangleLines(m_rect.x, m_rect.y, m_rect.width, m_rect.height, outlineColor);
+        DrawRectangle(m_rect.x, m_rect.y, m_rect.width, m_rect.height, m_boxColor);
     };
     Rectangle m_rect;
     Size m_parentSize;

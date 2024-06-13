@@ -1,6 +1,5 @@
 #include "Player.h"
 #include "util/VectorUtil.h"
-#include "imgui.h"
 
 #include <format>
 #include <iostream>
@@ -142,7 +141,6 @@ void Player::onBeforeUpdate(float delta)
     // REFACTOR THIS
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !onGDC())
     {
-
         m_state = PlayerState::ATTACKING;
     }
 
@@ -158,6 +156,12 @@ void Player::onBeforeUpdate(float delta)
 
 void Player::onBeforeDraw()
 {
+    {
+        // static int speed = 2;
+
+        // ImGui::SliderInt("Size", &speed, 3, 10);
+        // setFrameSpeed(speed);
+    }
     drawSpells();
 }
 

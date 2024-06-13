@@ -1,5 +1,8 @@
 #include "Entity.h"
 #include "EntityManager.h"
+#include <format>
+
+#include "imgui.h"
 
 Entity::Entity(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows)
 {
@@ -54,6 +57,79 @@ void Entity::draw()
 {
     onBeforeDraw();
 
+    {
+        if (m_group == "player")
+        {
+            if (ImGui::CollapsingHeader(std::format("Entity {}", m_id).c_str()))
+            {
+                ImGui::SeparatorText("General");
+
+                ImGui::Text(std::format("Group {}", m_group).c_str());
+                ImGui::DragInt("Velocity", &m_velocity, 10, m_velocity - 50, m_velocity + 200);
+
+                std::string intGroup = "Interaction Groups: ";
+                for (int i = 0; i < m_interactionGroups.size(); i++)
+                {
+                    intGroup += m_interactionGroups[i];
+
+                    if (i != m_collisionGroups.size())
+                    {
+                        intGroup += ", ";
+                    }
+                }
+                if (m_interactionGroups.size() == 0)
+                {
+                    intGroup += "None";
+                }
+                ImGui::Text(intGroup.c_str());
+                ImGui::SeparatorText("Position");
+                ImGui::Text(std::format("Current Position ({},{})", m_position->getPosition().x, m_position->getPosition().y).c_str());
+                ImGui::SeparatorText("Draw Hitboxes");
+
+                // Showcase NOT relying on a IsItemHovered() to emit a tooltip.
+                // Here the tooltip is always emitted when 'always_on == true'.
+                int always_on = m_drawBoxLevels;
+                ImGui::RadioButton("None", &always_on, 0);
+                ImGui::SameLine();
+                ImGui::RadioButton("Hitboxes", &always_on, 1);
+                ImGui::SameLine();
+                ImGui::RadioButton("HurtBoxes", &always_on, 2);
+                ImGui::SameLine();
+                ImGui::RadioButton("CollisionBoxes", &always_on, 3);
+                ImGui::SameLine();
+                ImGui::RadioButton("All", &always_on, 4);
+                m_drawBoxLevels = (DrawBoxLevel)always_on;
+                if (ImGui::TreeNode("Resize"))
+                {
+
+                    ImGui::SeparatorText("Resize Hitboxes");
+                    int hitBoxSize_h = m_hitbox->getRect().height;
+                    int hitBoxSize_w = m_hitbox->getRect().width;
+
+                    ImGui::DragInt("Hitbox Width", &hitBoxSize_w, 1, 10, 100);
+                    ImGui::DragInt("Hitbox Height", &hitBoxSize_h, 1, 10, 100);
+                    m_hitbox->setRect(hitBoxSize_w, hitBoxSize_h);
+
+                    ImGui::SeparatorText("Resize Hurtboxes");
+                    int hurtBoxSize_h = m_hurtbox->getRect().height;
+                    int hurtBoxSize_w = m_hurtbox->getRect().width;
+
+                    ImGui::DragInt("Hurtbox Height", &hurtBoxSize_h, 1, 10, 100);
+                    ImGui::DragInt("Hurtbox Width", &hurtBoxSize_w, 1, 10, 100);
+                    m_hurtbox->setRect(hurtBoxSize_w, hurtBoxSize_h);
+
+                    ImGui::SeparatorText("Resize Collisionboxes");
+                    int collisionBoxSize_h = m_collisionBox->getRect().height;
+                    int collisionBoxSize_w = m_collisionBox->getRect().width;
+
+                    ImGui::DragInt("CollisionBox Height", &collisionBoxSize_h, 1, 10, 100);
+                    ImGui::DragInt("CollisionBox Width", &collisionBoxSize_w, 1, 10, 100);
+                    m_collisionBox->setRect(collisionBoxSize_w, collisionBoxSize_h);
+                    ImGui::TreePop();
+                }
+            }
+        }
+    }
     m_animatedSprite->draw();
 
     m_hitbox->draw(m_drawBoxLevels == DrawBoxLevel::HIT || m_drawBoxLevels == DrawBoxLevel::ALL);
