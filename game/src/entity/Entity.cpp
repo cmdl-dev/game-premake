@@ -67,6 +67,16 @@ void Entity::draw()
                 ImGui::Text(std::format("Group {}", m_group).c_str());
                 ImGui::DragInt("Velocity", &m_velocity, 10, m_velocity - 50, m_velocity + 200);
 
+                ImGui::SeparatorText("Position");
+                ImGui::Text(std::format("Position: ({},{})", m_position->getPosition().x, m_position->getPosition().y).c_str());
+
+                ImGui::SeparatorText("Health");
+                ImGui::Text(std::format("Health: {}", m_health->getHealth()).c_str());
+
+                ImGui::SeparatorText("Attack");
+                ImGui::Text(std::format("Attack: {}", m_attack->getDamage()).c_str());
+
+                ImGui::SeparatorText("Groups");
                 std::string intGroup = "Interaction Groups: ";
                 for (int i = 0; i < m_interactionGroups.size(); i++)
                 {
@@ -82,8 +92,7 @@ void Entity::draw()
                     intGroup += "None";
                 }
                 ImGui::Text(intGroup.c_str());
-                ImGui::SeparatorText("Position");
-                ImGui::Text(std::format("Current Position ({},{})", m_position->getPosition().x, m_position->getPosition().y).c_str());
+
                 ImGui::SeparatorText("Draw Hitboxes");
 
                 // Showcase NOT relying on a IsItemHovered() to emit a tooltip.

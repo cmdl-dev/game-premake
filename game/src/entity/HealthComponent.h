@@ -15,6 +15,7 @@ public:
         std::cout << "Taking: " << dmg << " Health left: " << m_health << "\n";
     };
     bool hasDied() { return m_health <= 0; };
+    int getHealth() { return m_health; };
 
 private:
     int m_health;
