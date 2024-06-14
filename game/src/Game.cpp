@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "DebugMenu.h"
+#include "DebugWindow.h"
 
 Player *player;
 Enemy *enemy;
@@ -22,7 +23,7 @@ Game::Game(int width, int height, std::string title)
     enemy = new Enemy(playerTextures, Vector2{200, 200}, "enemy", 4, 31);
     // enemy = new Enemy("game/assets/player/HealingTexture.png", Vector2{200, 200}, "enemy");
     debugger = new DebugMenu();
-
+    ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
     map = new Tileset();
 
     // rlImGuiSetup(true);
@@ -46,7 +47,9 @@ void Game::tick(float delta)
 }
 void Game::update(float delta)
 {
+
     debugger->update();
+
     player->update(delta);
     enemy->update(delta);
     // player->move(delta);

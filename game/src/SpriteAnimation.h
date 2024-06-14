@@ -35,6 +35,9 @@ public:
 
     void addAnimationPositions(AnimationInfo info);
     void setFrameSpeed(int speed) { m_frameSpeed = speed; };
+    int getWidth() { return m_widthOffset; }
+    int getHeight() { return m_heightOffset; }
+    Vector2 getPosition() { return m_position; }
     int getFrameSpeed() { return m_frameSpeed; };
 
     Texture2D m_texture;

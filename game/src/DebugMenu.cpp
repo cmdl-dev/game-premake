@@ -3,24 +3,14 @@
 #include "imgui.h"
 #include "rlImGui.h"
 #include "imgui_impl_raylib.h"
+#include "DebugWindow.h"
 
+AnimationWindow AnimationViewer;
 DebugMenu::DebugMenu()
 {
-
     rlImGuiSetup(true);
-    // ImGui::CreateContext();
-    // ImGuiIO &io = ImGui::GetIO();
-    // (void)io;
-    // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
-    // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-    // ImGui::StyleColorsDark();
-    // ImGui_ImplRaylib_Init();
-
-    // io.Fonts->AddFontDefault();
-    // ImFont *font = io.Fonts->AddFontFromFileTTF("game/resources/driusstraight.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
-    // IM_ASSERT(font != nullptr);
-    // // required to be called to cache the font texture with raylib
-    // Imgui_ImplRaylib_BuildFontAtlas();
+    AnimationViewer.Setup();
+    AnimationViewer.Open = true;
 }
 
 DebugMenu::~DebugMenu()
@@ -32,12 +22,12 @@ DebugMenu::~DebugMenu()
 
 void DebugMenu::handleEvents()
 {
-    rlImGuiBegin();
     // ImGui_ImplRaylib_ProcessEvents();
 }
 
 void DebugMenu::newFrame()
 {
+    rlImGuiBegin();
     // ImGui_ImplRaylib_NewFrame();
     // ImGui::NewFrame();
 }
@@ -60,12 +50,12 @@ void DebugMenu::update()
         }
         ImGui::EndMainMenuBar();
     }
+    AnimationViewer.Update();
     // ImGui::End();
 }
 
 void DebugMenu::draw()
 {
+    AnimationViewer.Show();
     rlImGuiEnd();
-    // ImGui::Render();
-    // ImGui_ImplRaylib_RenderDrawData(ImGui::GetDrawData());
 }
