@@ -1,7 +1,6 @@
 #ifndef DEBUGMENU_H
 #define DEBUGMENU_H
-#include "entity/Entity.h"
-#include "DebugWindow.h"
+#include "EntityDebugMenu.h"
 
 class DebugMenu
 {
@@ -14,7 +13,7 @@ public:
     void draw();
 
 private:
-    Entity *m_selectedEntity;
-    AnimationWindow *m_animWindow;
+    EntityDebugMenu *m_EntDebugMenu;
 };
+
 #endif

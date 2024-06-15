@@ -67,6 +67,7 @@ public:
     uint32_t getId() { return m_id; };
     void update(float delta);
     void draw();
+    int getVelocity() { return m_velocity; }
     void setVelocity(int vel) { m_velocity = vel; };
     void setCollisionGroups(std::vector<std::string> groups) { m_collisionGroups = groups; }
     /// @brief Interaction groups are the groups that you want to do damage to i.e interact with
@@ -76,6 +77,17 @@ public:
     virtual void onBeforeDraw() {};
     std::string getGroup() { return m_group; }
 
+    Rectangle getHitboxRect() { return m_hitbox->getRect(); }
+    Rectangle getHurtboxRect() { return m_hurtbox->getRect(); }
+    Rectangle getCollisionboxRect() { return m_collisionBox->getRect(); }
+
+    DrawBoxLevel getDrawBoxLevel() { return m_drawBoxLevels; }
+    void setDrawBoxLevel(DrawBoxLevel boxLevel) { m_drawBoxLevels = boxLevel; }
+
+    std::vector<std::string> getInteractionGroups() { return m_interactionGroups; }
+    int getDamage() { return m_attack->getDamage(); }
+    int getHealth() { return m_health->getHealth(); }
+    AnimationInfo getCurrentAnimation() { return m_animatedSprite->getCurrentAnimation(); }
     bool isColliding(Rectangle rect) { return m_collisionBox->didCollideWith(rect); }
 
     void setAttack(int dmg) { m_attack->setDamage(dmg); }
@@ -88,6 +100,7 @@ public:
     void setCollisionBoxCenter(bool center) { m_collisionBox->setCentered(center); }
 
     void setDirection(Vector2 vec) { m_position->setDirection(vec); }
+
     Vector2 getPosition() { return m_position->getPosition(); }
     AnimatedSpriteInfo getAnimatedSpriteInfo() { return m_animatedSprite->getAnimatedSpriteInfo(); }
     Texture2D getAnimationTexture() { return m_animatedSprite->m_texture; }

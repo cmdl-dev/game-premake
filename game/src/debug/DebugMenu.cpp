@@ -13,7 +13,8 @@ DebugMenu::DebugMenu()
     rlImGuiSetup(true);
     // AnimationViewer.Setup();
     // AnimationViewer.Open = true;
-    m_animWindow = new AnimationWindow();
+    m_EntDebugMenu = new EntityDebugMenu();
+    // m_animWindow = new AnimationWindow();
 }
 
 DebugMenu::~DebugMenu()
@@ -25,25 +26,7 @@ DebugMenu::~DebugMenu()
 
 void DebugMenu::handleEvents()
 {
-    Vector2 pos = GetMousePosition();
-    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-    {
-        Rectangle mouseRect = Rectangle{pos.x, pos.y, 20, 20};
-        std::vector<Entity *> allEntities = EntityManager::GetAllEntities();
-        std::cout << "Checking " << allEntities.size() << "\n";
-        for (Entity *e : allEntities)
-        {
-            if (e->isColliding(mouseRect))
-            {
-                if (m_selectedEntity != e)
-                {
-                    m_selectedEntity = e;
-
-                    m_animWindow->Setup(m_selectedEntity->getAnimationTexture(), m_selectedEntity->getAnimatedSpriteInfo(), AnimationInfo{Vector2{0, 0}, 4, "play"}, 4);
-                }
-            }
-        }
-    }
+    m_EntDebugMenu->handleEvents();
     // ImGui_ImplRaylib_ProcessEvents();
 }
 
@@ -72,13 +55,15 @@ void DebugMenu::update()
         }
         ImGui::EndMainMenuBar();
     }
-    m_animWindow->Update();
+    m_EntDebugMenu->update();
+    // m_animWindow->Update();
     // AnimationViewer.Update();
     // ImGui::End();
 }
 
 void DebugMenu::draw()
 {
-    m_animWindow->Show();
+    m_EntDebugMenu->show();
+    // m_animWindow->Show();
     rlImGuiEnd();
 }

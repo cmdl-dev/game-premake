@@ -33,6 +33,7 @@ public:
     void move(Vector2 newPosition);
     void resize(float scale);
 
+    AnimationInfo getCurrentAnimation() { return m_currentAnimation; }
     void addAnimationPositions(AnimationInfo info);
     AnimatedSpriteInfo getAnimatedSpriteInfo();
     void setFrameSpeed(int speed) { m_frameSpeed = speed; };

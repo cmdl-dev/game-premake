@@ -64,6 +64,7 @@ public:
 
     void Shutdown() override
     {
+        Close();
         UnloadRenderTexture(ViewTexture);
     }
 

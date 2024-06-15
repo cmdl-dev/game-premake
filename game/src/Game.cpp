@@ -1,6 +1,6 @@
 #include "Game.h"
-#include "DebugMenu.h"
-#include "DebugWindow.h"
+#include "debug/DebugMenu.h"
+// #include "DebugWindow.h"
 
 Player *player;
 Enemy *enemy;
