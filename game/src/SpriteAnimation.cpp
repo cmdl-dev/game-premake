@@ -103,6 +103,14 @@ void SpriteAnimation::addAnimationPositions(AnimationInfo info)
     m_animationPosition[info.name] = info;
 }
 
+AnimatedSpriteInfo SpriteAnimation::getAnimatedSpriteInfo()
+{
+    return AnimatedSpriteInfo{
+        m_animCols,
+        m_animRows,
+        m_position};
+}
+
 // BUG: When we switch to a different animation we play the current animaiton for a bit b/c of the time inbetween frame ticks
 void SpriteAnimation::setCurrentFrame()
 {

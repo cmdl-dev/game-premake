@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "EntityManager.h"
+#include "DebugWindow.h"
 #include <format>
 
 #include "imgui.h"
@@ -23,6 +24,12 @@ Entity::Entity(Texture2D texture, Vector2 initialPosition, std::string group, in
 
     HitboxManager::AddCollisionBox(group, m_collisionBox);
     EntityManager::AddEntities(group, this);
+}
+
+Entity::~Entity()
+{
+    std::cout << "Entity dies";
+    EntityManager::RemoveEntity(m_group, this);
 }
 
 void Entity::update(float delta)
@@ -147,6 +154,7 @@ void Entity::draw()
 
                     ImGui::DragInt("Anmation Speed", &animationSpeed, 1, 1, 20);
                     m_animatedSprite->setFrameSpeed(animationSpeed);
+
                     ImGui::TreePop();
                 }
             }

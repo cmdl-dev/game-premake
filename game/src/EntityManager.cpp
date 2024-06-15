@@ -31,6 +31,39 @@ std::vector<Entity *> EntityManager::impl_GetEntityFor(std::vector<std::string> 
     return boxes;
 }
 
+void EntityManager::impl_RemoveEntity(std::string key, Entity *box)
+{
+    EntityManager &manager = EntityManager::GetInstance();
+    bool has = manager.Has(key);
+    if (!has)
+    {
+        return;
+    }
+    for (std::vector<Entity *>::iterator it = m_entities[key].begin(); it != m_entities[key].end();)
+    {
+        if (*it == box)
+            m_entities[key].erase(it);
+        else
+            ++it;
+    }
+}
+
+std::vector<Entity *> EntityManager::impl_GetAllEntities()
+{
+    std::vector<Entity *> allEntities;
+    for (auto const &x : m_entities)
+    {
+        std::vector<Entity *> entities = x.second;
+
+        for (Entity *e : entities)
+        {
+            allEntities.push_back(e);
+        }
+    }
+
+    return allEntities;
+}
+
 bool EntityManager::Has(std::string key)
 {
     EntityManager &manager = EntityManager::GetInstance();

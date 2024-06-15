@@ -62,6 +62,7 @@ class Entity
 {
 public:
     Entity(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows);
+    ~Entity();
 
     uint32_t getId() { return m_id; };
     void update(float delta);
@@ -75,8 +76,9 @@ public:
     virtual void onBeforeDraw() {};
     std::string getGroup() { return m_group; }
 
-    void setAttack(int dmg) { m_attack->setDamage(dmg); }
+    bool isColliding(Rectangle rect) { return m_collisionBox->didCollideWith(rect); }
 
+    void setAttack(int dmg) { m_attack->setDamage(dmg); }
     void setHitboxSize(float width, float height) { m_hitbox->setRect(width, height); };
     void setHurtboxSize(float width, float height) { m_hurtbox->setRect(width, height); };
     void setCollisionBoxSize(float width, float height) { m_collisionBox->setRect(width, height); };
@@ -87,6 +89,8 @@ public:
 
     void setDirection(Vector2 vec) { m_position->setDirection(vec); }
     Vector2 getPosition() { return m_position->getPosition(); }
+    AnimatedSpriteInfo getAnimatedSpriteInfo() { return m_animatedSprite->getAnimatedSpriteInfo(); }
+    Texture2D getAnimationTexture() { return m_animatedSprite->m_texture; }
 
     bool hasAnimations() { return m_animatedSprite != nullptr; };
     void playAnimation(std::string name)

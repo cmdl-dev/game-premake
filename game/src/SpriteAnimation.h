@@ -34,6 +34,7 @@ public:
     void resize(float scale);
 
     void addAnimationPositions(AnimationInfo info);
+    AnimatedSpriteInfo getAnimatedSpriteInfo();
     void setFrameSpeed(int speed) { m_frameSpeed = speed; };
     int getWidth() { return m_widthOffset; }
     int getHeight() { return m_heightOffset; }

@@ -13,7 +13,7 @@ public:
 
     RenderTexture ViewTexture;
 
-    virtual void Setup() = 0;
+    virtual void Setup(Texture2D texture, AnimatedSpriteInfo info, AnimationInfo animInfo, float scale) = 0;
     virtual void Shutdown() = 0;
     virtual void Show() = 0;
     virtual void Update() = 0;
@@ -30,21 +30,36 @@ public:
 class AnimationWindow : public DocumentWindow
 {
 public:
+    AnimationWindow(){};
     SpriteAnimation *sprite;
     Texture2D texture;
 
-    void Setup() override
+    void Close()
+    {
+        Open = false;
+    }
+
+    void ResetNewTexture(Texture2D texture, AnimatedSpriteInfo info, float scale)
+    {
+
+        texture.height *= scale;
+        texture.width *= scale;
+        sprite = new SpriteAnimation(texture, info);
+    };
+
+    void SetAnimationPosition(AnimationInfo animInfo)
+    {
+        sprite->addAnimationPositions(animInfo);
+        sprite->play(animInfo.name);
+    }
+
+    void Setup(Texture2D texture, AnimatedSpriteInfo info, AnimationInfo animInfo, float scale) override
     {
         ViewTexture = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
 
-        texture = TextureManager::LoadTextureFromFile("game/assets/player/Heavy_Knight_Combat_Animations.png");
-        texture.height *= 8;
-        texture.width *= 8;
-
-        sprite = new SpriteAnimation(texture, AnimatedSpriteInfo{4, 12, Vector2{0, 0}});
-
-        sprite->addAnimationPositions(AnimationInfo{Vector2{0, 0}, 4, "current"});
-        sprite->play("current");
+        ResetNewTexture(texture, info, scale);
+        SetAnimationPosition(animInfo);
+        Open = true;
     }
 
     void Shutdown() override
@@ -54,6 +69,8 @@ public:
 
     void Show() override
     {
+        if (!Open)
+            return;
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         ImGui::SetNextWindowSizeConstraints(ImVec2(300, 300), ImVec2((float)GetScreenWidth(), (float)GetScreenHeight()));
 
