@@ -63,69 +63,78 @@ class Entity
 public:
     Entity(Texture2D texture, Vector2 initialPosition, std::string group, int animationCols, int animationRows);
     ~Entity();
-
-    uint32_t getId() { return m_id; };
     void update(float delta);
     void draw();
-    int getVelocity() { return m_velocity; }
+    virtual void onBeforeUpdate(float delta) = 0;
+    virtual void onBeforeDraw() = 0;
+
     void setVelocity(int vel) { m_velocity = vel; };
     void setCollisionGroups(std::vector<std::string> groups) { m_collisionGroups = groups; }
     /// @brief Interaction groups are the groups that you want to do damage to i.e interact with
     /// @param groups The gorup that you want to interact with
     void setInteractionGroups(std::vector<std::string> groups) { m_interactionGroups = groups; }
-    virtual void onBeforeUpdate(float delta) {};
-    virtual void onBeforeDraw() {};
+
     std::string getGroup() { return m_group; }
+    std::vector<std::string> getInteractionGroups() { return m_interactionGroups; }
+    uint32_t getId() { return m_id; };
+    int getVelocity() { return m_velocity; }
+
+    /**
+     * Health
+     */
+    int getHealth() { return m_health->getHealth(); }
+
+    /**
+     * Attack
+     */
+    void setAttack(int dmg) { m_attack->setDamage(dmg); }
+
+    int getDamage() { return m_attack->getDamage(); }
+    /**
+     * Position
+     */
+    void setDirection(Vector2 vec) { m_position->setDirection(vec); }
+    Vector2 getPosition() { return m_position->getPosition(); }
+    /**
+     * Hitboxes
+     */
+    bool isColliding(Rectangle rect) { return m_collisionBox->didCollideWith(rect); }
+
+    void setHitboxSize(float width, float height) { m_hitbox->setRect(width, height); };
+    void setHurtboxSize(float width, float height) { m_hurtbox->setRect(width, height); };
+    void setCollisionBoxSize(float width, float height) { m_collisionBox->setRect(width, height); };
+    void setHurtboxCenter(bool center) { m_hurtbox->setCentered(center); }
+    void setHitboxCenter(bool center) { m_hitbox->setCentered(center); }
+    void setCollisionBoxCenter(bool center) { m_collisionBox->setCentered(center); }
+    void setDrawBoxLevel(DrawBoxLevel boxLevel) { m_drawBoxLevels = boxLevel; }
 
     Rectangle getHitboxRect() { return m_hitbox->getRect(); }
     Rectangle getHurtboxRect() { return m_hurtbox->getRect(); }
     Rectangle getCollisionboxRect() { return m_collisionBox->getRect(); }
-
     DrawBoxLevel getDrawBoxLevel() { return m_drawBoxLevels; }
-    void setDrawBoxLevel(DrawBoxLevel boxLevel) { m_drawBoxLevels = boxLevel; }
 
-    std::vector<std::string> getInteractionGroups() { return m_interactionGroups; }
-    int getDamage() { return m_attack->getDamage(); }
-    int getHealth() { return m_health->getHealth(); }
+    /**
+     * Animation
+     */
     AnimationInfo getCurrentAnimation() { return m_animatedSprite->getCurrentAnimation(); }
-    bool isColliding(Rectangle rect) { return m_collisionBox->didCollideWith(rect); }
-
-    void setAttack(int dmg) { m_attack->setDamage(dmg); }
-    void setHitboxSize(float width, float height) { m_hitbox->setRect(width, height); };
-    void setHurtboxSize(float width, float height) { m_hurtbox->setRect(width, height); };
-    void setCollisionBoxSize(float width, float height) { m_collisionBox->setRect(width, height); };
-
-    void setHurtboxCenter(bool center) { m_hurtbox->setCentered(center); }
-    void setHitboxCenter(bool center) { m_hitbox->setCentered(center); }
-    void setCollisionBoxCenter(bool center) { m_collisionBox->setCentered(center); }
-
-    void setDirection(Vector2 vec) { m_position->setDirection(vec); }
-
-    Vector2 getPosition() { return m_position->getPosition(); }
     AnimatedSpriteInfo getAnimatedSpriteInfo() { return m_animatedSprite->getAnimatedSpriteInfo(); }
     Texture2D getAnimationTexture() { return m_animatedSprite->m_texture; }
-
     bool hasAnimations() { return m_animatedSprite != nullptr; };
+
     void playAnimation(std::string name)
     {
         if (hasAnimations())
-        {
             m_animatedSprite->play(name);
-        }
     };
     void addAnimPosition(AnimationInfo info)
     {
         if (hasAnimations())
-        {
             m_animatedSprite->addAnimationPositions(info);
-        }
     };
     void setFrameSpeed(int speed)
     {
         if (hasAnimations())
-        {
             m_animatedSprite->setFrameSpeed(speed);
-        }
     }
 
 private:
@@ -154,7 +163,6 @@ private:
      *
      * If a hitbox collides with a hurt box then the hurt box takes tamage
      *
-     *
      * */
     HitboxComponent *m_hitbox;
 
@@ -173,7 +181,6 @@ private:
     /** Collision
      *
      * This will handling if we should collide with another entity
-     *
      *
      * */
     CollisionComponent *m_collisionBox;
